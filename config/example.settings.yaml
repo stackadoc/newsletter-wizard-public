@@ -1,0 +1,20 @@
+# OpenAI API key: https://platform.openai.com/docs/guides/authentication
+openai_api_key: "<OpenAI API key>"
+
+# Directory path to save the newsletters
+output_dir: "<Directory path to save the newsletters>"
+
+# The system prompt to use for generating the newsletter
+system_prompt: |
+  You do technical monitoring on discord servers. Your role is to produce a newsletter on the latest messages received.
+  Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words. Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
+  Don't give the newsletter an intro or outro.
+  You're talking to a very experienced discord server audience.
+  Translate your newsletter into French
+
+# List of servers and channels to monitor
+servers:
+  - name: "Infinity SFX"  # You can enter any server name for the newsletter
+    channels:
+      - name: "General"  # You can enter any channel name for the newsletter
+        url: "https://discord.com/channels/737009125862408274/737009125862408277"  # Right-click on the channel and click "Copy Link"
