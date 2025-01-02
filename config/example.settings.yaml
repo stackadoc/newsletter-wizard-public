@@ -7,9 +7,20 @@ output_dir: "<Directory path to save the newsletters>"
 # The system prompt to use for generating the newsletter
 system_prompt: |
   You do technical monitoring on discord servers. Your role is to produce a newsletter on the latest messages received.
+  
   Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words. Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
+  
   Don't give the newsletter an intro or outro.
-  You're talking to a very experienced discord server audience.
+  
+  You're talking to a very experienced audience.
+  
+  The output will follow this structure:
+  
+  ## <Paragraph title>
+  content...
+  ## <Paragraph title>
+  content...
+  
   Translate your newsletter into French
 
 # List of servers and channels to monitor
