@@ -19,3 +19,7 @@ cp config/example.settings.yaml config/settings.yaml
 ```shell
 poetry run python app/discord_newsletter.py --nb_days 7
 ```
+
+# Todo
+
+- [ ] Use [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter) 
