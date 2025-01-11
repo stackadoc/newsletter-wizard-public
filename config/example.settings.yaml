@@ -1,9 +1,6 @@
 # OpenAI API key: https://platform.openai.com/docs/guides/authentication
 openai_api_key: "<OpenAI API key>"
 
-# Directory path to save the newsletters
-output_dir: "<Directory path to save the newsletters>"
-
 # The system prompt to use for generating the newsletter
 system_prompt: |
   You do technical monitoring on discord servers. Your role is to produce a newsletter on the latest messages received.

@@ -25,14 +25,9 @@ def extract_messages(date_start: date) -> Union[Dict[str, List[Dict[str, Any]]],
         for channel in newsletter["channels"]:
             channels_params += ["-c", channel]
 
+        output_path = (Path(config.OUTPUT_DIR) / f"%d/{newsletter['name']} - %G - %C.json").as_posix()
         command = [
-            "docker",
-            "run",
-            "--rm",
-            "-t",
-            "-v",
-            f"{config.OUTPUT_DIR}:/out",
-            "tyrrrz/discordchatexporter:stable",
+            (config.PROJECT_DIR / "discord_chat_exporter/DiscordChatExporter.Cli").as_posix(),
             "export",
             "--fuck-russia",
             "-t",
@@ -42,7 +37,7 @@ def extract_messages(date_start: date) -> Union[Dict[str, List[Dict[str, Any]]],
             "-f",
             "Json",
             "-o",
-            f"%d/{newsletter['name']} - %G - %C.json",
+            output_path,
         ] + channels_params
 
         logging.info(f"Get messages for newsletter \"{newsletter['name']}\"...")

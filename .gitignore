@@ -1,7 +1,3 @@
-# Exclude everything inside local/ except .gitkeep
-local/*
-!local/.gitkeep
-
 # Exclude all in config/ dir exept files that starts with "example."
 config/*
 !config/example.*
@@ -9,3 +5,9 @@ config/*
 # Intellij IDEA
 /.idea/
 /discord-summarize.iml
+
+# Output dir
+/output/
+
+# Discord chat exporter
+/discord_chat_exporter/

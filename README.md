@@ -1,25 +1,42 @@
 # Discord Newsletter
 
-## Install
+## Configuration
 
-```shell
-poetry install
-```
-
-Add your settings:
-    
 ```shell
 cp config/example.settings.yaml config/settings.yaml
 nano config/settings.yaml
 # Edit the content of config/settings.yaml
 ```
 
-## Run
+## Run with Docker
 
+Do the build only once
 ```shell
-poetry run python app/discord_newsletter.py --nb_days 7
+docker build -t discord-newsletter .
+docker run --rm -v ./config:/app/config -v ./output:/app/output discord-newsletter --nb_days 7
 ```
 
-# Todo
+## Run with Docker
+    
+```shell
+docker run --rm -v ./config:/app/config -v ./output:/app/output --user 1000:1000 discord-newsletter --nb_days 7
+```
 
-- [ ] Use [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter) 
+## Run with Python
+
+Install DiscordChatExporter
+```shell
+# Download DiscordChatExporter
+mkdir -p discord_chat_exporter && wget -O discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.44/DiscordChatExporter.Cli.linux-x64.zip
+
+# Unzip the downloaded file
+unzip discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip -d discord_chat_exporter
+
+# Delete archive
+rm discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip
+```
+
+```shell
+poetry install
+poetry run python app/discord_newsletter.py --nb_days 7
+```

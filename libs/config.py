@@ -66,10 +66,12 @@ PROJECT_DIR = Path(__file__).parent.parent
 
 PLAYWRIGHT_STATE_PATH = PROJECT_DIR / "local/playwright_state.json"
 
+OUTPUT_DIR = (PROJECT_DIR / "output").as_posix()
+Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+
 with open(PROJECT_DIR / "config/settings.yaml") as f:
     settings = yaml.safe_load(f)
     OPENAI_API_KEY = settings["openai_api_key"]
-    OUTPUT_DIR = settings["output_dir"]
     SYSTEM_PROMPT = settings["system_prompt"]
     TOP_P = settings["top_p"]
     TEMPERATURE = settings["temperature"]
