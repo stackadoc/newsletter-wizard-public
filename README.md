@@ -4,13 +4,13 @@
 
 ```shell
 poetry install
-playwrigth install
 ```
 
 Add your settings:
     
 ```shell
 cp config/example.settings.yaml config/settings.yaml
+nano config/settings.yaml
 # Edit the content of config/settings.yaml
 ```
 

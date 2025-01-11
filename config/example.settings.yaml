@@ -10,6 +10,8 @@ system_prompt: |
   
   Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words. Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
   
+  Terminate the newsletter with all the links captured in the messages.
+  
   Don't give the newsletter an intro or outro.
   
   You're talking to a very experienced audience.
@@ -20,12 +22,22 @@ system_prompt: |
   content...
   ## <Paragraph title>
   content...
+  ## Links
+  - <https://www.example.com>
+  - <https://www.example.com>
+  - <https://www.example.com>
   
   Translate your newsletter into French
 
-# List of servers and channels to monitor
-servers:
-  - name: "Infinity SFX"  # You can enter any server name for the newsletter
-    channels:
-      - name: "General"  # You can enter any channel name for the newsletter
-        url: "https://discord.com/channels/737009125862408274/737009125862408277"  # Right-click on the channel and click "Copy Link"
+# OpenAI API temperature
+temperature: 0.5
+
+# OpenAI API top_p
+top_p: 1
+
+# List of newsletters to generate
+newsletters:
+  - name: "Infinity SFX"  # Newsletter name
+    channels:  # List of Discord channel IDs to monitor (Right-click on the channel and click "Copy Link")
+      - '1001555639228702822'
+      - '1154633787838308372'

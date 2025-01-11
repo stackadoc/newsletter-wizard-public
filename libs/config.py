@@ -71,4 +71,8 @@ with open(PROJECT_DIR / "config/settings.yaml") as f:
     OPENAI_API_KEY = settings["openai_api_key"]
     OUTPUT_DIR = settings["output_dir"]
     SYSTEM_PROMPT = settings["system_prompt"]
-    DISCORD_CONFIG = settings["servers"]
+    TOP_P = settings["top_p"]
+    TEMPERATURE = settings["temperature"]
+    NEWSLETTERS_CONFIG = settings["newsletters"]
+    DISCORD_TOKEN = settings["discord_token"]
+
