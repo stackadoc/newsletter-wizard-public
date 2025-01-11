@@ -49,7 +49,7 @@ def generate_newsletter(discord_data, output_dir: str):
 
             # Call OpenAI
             response = client.chat.completions.create(
-                model="gpt-4o",
+                model=config.MODEL_NAME,
                 messages=[
                     {
                         "role": "system",

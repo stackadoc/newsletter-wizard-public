@@ -2,10 +2,18 @@
 
 ## Configuration
 
+### Settings
 ```shell
 cp config/example.settings.yaml config/settings.yaml
 nano config/settings.yaml
 # Edit the content of config/settings.yaml
+```
+
+### Environment variables
+```shell
+cp .env.example .env
+nano .env
+# Edit the content of .env
 ```
 
 ## Run with Docker
@@ -13,13 +21,13 @@ nano config/settings.yaml
 Do the build only once
 ```shell
 docker build -t discord-newsletter .
-docker run --rm -v ./config:/app/config -v ./output:/app/output discord-newsletter --nb_days 7
+docker run --rm -v ./config:/app/config -v ./output:/app/output newsletter-wizard --nb_days 7
 ```
 
 ## Run with Docker
     
 ```shell
-docker run --rm -v ./config:/app/config -v ./output:/app/output --user 1000:1000 discord-newsletter --nb_days 7
+docker run --rm -v ./config:/app/config -v ./output:/app/output --user 1000:1000 newsletter-wizard --nb_days 7
 ```
 
 ## Run with Python
@@ -40,3 +48,8 @@ rm discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip
 poetry install
 poetry run python app/discord_newsletter.py --nb_days 7
 ```
+
+# Troubleshooting
+
+If you receive the error `Invalid Discord token`, you may need to update the token in the `.env` file.
+Then, if you're using Docker, you'll need to rebuild the image.

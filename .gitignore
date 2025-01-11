@@ -4,10 +4,12 @@ config/*
 
 # Intellij IDEA
 /.idea/
-/discord-summarize.iml
+/newsletter-wizard.iml
 
 # Output dir
 /output/
 
 # Discord chat exporter
 /discord_chat_exporter/
+
+.env

@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 import yaml
@@ -71,10 +72,21 @@ Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 
 with open(PROJECT_DIR / "config/settings.yaml") as f:
     settings = yaml.safe_load(f)
-    OPENAI_API_KEY = settings["openai_api_key"]
-    SYSTEM_PROMPT = settings["system_prompt"]
-    TOP_P = settings["top_p"]
-    TEMPERATURE = settings["temperature"]
-    NEWSLETTERS_CONFIG = settings["newsletters"]
-    DISCORD_TOKEN = settings["discord_token"]
 
+    # LLM
+    MODEL_NAME = settings["llm"]["model_name"]
+    SYSTEM_PROMPT = settings["llm"]["system_prompt"]
+    TOP_P = settings["llm"]["top_p"]
+    TEMPERATURE = settings["llm"]["temperature"]
+
+    # Newsletters
+    NEWSLETTERS_CONFIG = settings["newsletters"]
+
+    # Email
+    MAILGUN_DOMAIN = settings["email"]["mailgun_domain"]
+    MAILGUN_IS_EU = settings["email"]["mailgun_is_eu"]
+    EMAIL_TO = settings["email"]["email_to"]
+
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
+MAILGUN_API_KEY = os.environ["MAILGUN_API_KEY"]

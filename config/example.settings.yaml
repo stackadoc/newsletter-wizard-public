@@ -1,36 +1,36 @@
-# OpenAI API key: https://platform.openai.com/docs/guides/authentication
-openai_api_key: "<OpenAI API key>"
+email:
+  mailgun_domain: "<Mailgun domain>"
+  mailgun_is_eu: false  # Set to true if your Mailgun domain is in the EU region
+  email_to:
+    - "<Your email address>"
 
-# The system prompt to use for generating the newsletter
-system_prompt: |
-  You do technical monitoring on discord servers. Your role is to produce a newsletter on the latest messages received.
-  
-  Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words. Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
-  
-  Terminate the newsletter with all the links captured in the messages.
-  
-  Don't give the newsletter an intro or outro.
-  
-  You're talking to a very experienced audience.
-  
-  The output will follow this structure:
-  
-  ## <Paragraph title>
-  content...
-  ## <Paragraph title>
-  content...
-  ## Links
-  - <https://www.example.com>
-  - <https://www.example.com>
-  - <https://www.example.com>
-  
-  Translate your newsletter into French
-
-# OpenAI API temperature
-temperature: 0.5
-
-# OpenAI API top_p
-top_p: 1
+llm:
+  model_name: "gpt-4o"
+  system_prompt: |
+    You do technical monitoring on discord servers. Your role is to produce a newsletter on the latest messages received.
+    
+    Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words. Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
+    
+    Terminate the newsletter with all the links captured in the messages.
+    
+    Don't give the newsletter an intro or outro.
+    
+    You're talking to a very experienced audience.
+    
+    The output will follow this structure:
+    
+    ## <Paragraph title>
+    content...
+    ## <Paragraph title>
+    content...
+    ## Links
+    - <https://www.example.com>
+    - <https://www.example.com>
+    - <https://www.example.com>
+    
+    Translate your newsletter into French
+  temperature: 0.5
+  top_p: 1
 
 # List of newsletters to generate
 newsletters:
