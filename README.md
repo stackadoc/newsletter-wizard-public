@@ -25,7 +25,6 @@ nano .env
 Do the build only once
 ```shell
 docker build -t newsletter-wizard .
-docker run --rm -v ./config:/app/config -v ./output:/app/output --user 1000:1000 newsletter-wizard --nb_days 7
 ```
 
 ## Run with Docker
