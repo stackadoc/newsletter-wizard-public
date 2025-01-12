@@ -6,7 +6,7 @@ from pathlib import Path
 import yaml
 from dotenv import load_dotenv
 
-from libs.extractors.DiscordExtractor import DiscordExtractor
+from libs.extractors.extractors.DiscordExtractor import DiscordExtractor
 
 load_dotenv()
 
