@@ -1,9 +1,12 @@
 import logging
 import os
+from datetime import date
 from pathlib import Path
 
 import yaml
 from dotenv import load_dotenv
+
+from libs.extractors.DiscordExtractor import DiscordExtractor
 
 load_dotenv()
 
@@ -67,17 +70,18 @@ PROJECT_DIR = Path(__file__).parent.parent
 
 PLAYWRIGHT_STATE_PATH = PROJECT_DIR / "local/playwright_state.json"
 
-OUTPUT_DIR = (PROJECT_DIR / "output").as_posix()
+OUTPUT_DIR = (PROJECT_DIR / f"output/{date.today().strftime('%Y-%m-%d')}").as_posix()
 Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
+
+EXTRACTORS = {
+    "discord": DiscordExtractor,
+}
 
 with open(PROJECT_DIR / "config/settings.yaml") as f:
     settings = yaml.safe_load(f)
 
     # LLM
-    MODEL_NAME = settings["llm"]["model_name"]
-    SYSTEM_PROMPT = settings["llm"]["system_prompt"]
-    TOP_P = settings["llm"]["top_p"]
-    TEMPERATURE = settings["llm"]["temperature"]
+    LLM_CONFIG = settings["llm"]
 
     # Newsletters
     NEWSLETTERS_CONFIG = settings["newsletters"]
@@ -86,6 +90,13 @@ with open(PROJECT_DIR / "config/settings.yaml") as f:
     MAILGUN_DOMAIN = settings["email"]["mailgun_domain"]
     MAILGUN_IS_EU = settings["email"]["mailgun_is_eu"]
     EMAIL_TO = settings["email"]["email_to"]
+
+    # Custom
+    if (PROJECT_DIR / "config/custom.css").exists():
+        with open(PROJECT_DIR / "config/custom.css") as custom_css_file:
+            CUSTOM_CSS = custom_css_file.read()
+    else:
+        CUSTOM_CSS = ""
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
