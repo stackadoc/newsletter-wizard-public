@@ -26,11 +26,19 @@ RUN mkdir -p /app/.venv && chown -R 1000:1000 /app/.venv
 # Install dependencies
 RUN poetry install --no-root
 
-# Install DiscordChatExporter (x86_64 version)
-RUN mkdir -p discord_chat_exporter && \
-    curl -L -o discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.44/DiscordChatExporter.Cli.linux-x64.zip && \
-    unzip -o discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip -d discord_chat_exporter && \
-    rm discord_chat_exporter/DiscordChatExporter.Cli.linux-x64.zip
+# Determine architecture and download the correct version of DiscordChatExporter
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then \
+        URL="https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.44/DiscordChatExporter.Cli.linux-x64.zip"; \
+    elif [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then \
+        URL="https://github.com/Tyrrrz/DiscordChatExporter/releases/download/2.44/DiscordChatExporter.Cli.linux-arm64.zip"; \
+    else \
+        echo "Unsupported architecture: $ARCH"; exit 1; \
+    fi && \
+    mkdir -p discord_chat_exporter && \
+    curl -L -o discord_chat_exporter/DiscordChatExporter.Cli.zip "$URL" && \
+    unzip -o discord_chat_exporter/DiscordChatExporter.Cli.zip -d discord_chat_exporter && \
+    rm discord_chat_exporter/DiscordChatExporter.Cli.zip
 
 # Set PYTHONPATH
 ENV PYTHONPATH="/app"
