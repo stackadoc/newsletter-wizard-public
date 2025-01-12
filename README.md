@@ -53,3 +53,7 @@ poetry run python app/discord_newsletter.py --nb_days 7
 
 If you receive the error `Invalid Discord token`, you may need to update the token in the `.env` file.
 Then, if you're using Docker, you'll need to rebuild the image.
+
+# Style
+
+You can create your own style by creating a `custom.css` file in the `config/` folder.
