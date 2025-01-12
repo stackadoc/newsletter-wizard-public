@@ -4,6 +4,10 @@
 
 ### Settings
 ```shell
+# Create output dir
+mkdir -p output
+
+# Create settings file
 cp config/example.settings.yaml config/settings.yaml
 nano config/settings.yaml
 # Edit the content of config/settings.yaml
