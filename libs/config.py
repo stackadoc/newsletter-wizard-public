@@ -70,6 +70,8 @@ PROJECT_DIR = Path(__file__).parent.parent
 
 PLAYWRIGHT_STATE_PATH = PROJECT_DIR / "local/playwright_state.json"
 
+LAST_RUN_FILE = PROJECT_DIR / "config/last_run.txt"
+
 OUTPUT_DIR = (PROJECT_DIR / f"output/{date.today().strftime('%Y-%m-%d')}").as_posix()
 Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 

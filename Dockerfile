@@ -44,7 +44,7 @@ RUN ARCH=$(uname -m) && \
 ENV PYTHONPATH="/app"
 
 # Set the entrypoint to run the application
-ENTRYPOINT ["poetry", "run", "python", "app/discord_newsletter.py"]
+ENTRYPOINT ["poetry", "run", "python", "app/send_newsletter.py"]
 
 # Default command arguments
 CMD ["--nb_days", "7"]
