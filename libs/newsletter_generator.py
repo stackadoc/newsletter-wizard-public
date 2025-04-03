@@ -1,77 +1,78 @@
-import json
 import logging
-import re
-from datetime import date
-from pathlib import Path
-from typing import Dict
-
-from openai import OpenAI
-from markdown import markdown
+import os
 
 from libs import config
+from libs.config import create_session
+from libs.db_models import Extract, Newsletter
+from libs.extractors.ExtractorABC import ExtractorABC
+from libs.extractors.extractors_config import extractors_config
+from libs.openai_chat import chat
 
 
-def generate_newsletter(data: Dict[str, str]):
-    client = OpenAI(api_key=config.OPENAI_API_KEY)
-    newsletter_md = [f"# Newsletter {date.today().isoformat()}"]
-
-    for newsletter_name, extracted_text in data.items():
-        logging.info(f"Generate newsletter for \"{newsletter_name}\"...")
-
-        newsletter_config = next(newsletter_conf for newsletter_conf in config.NEWSLETTERS_CONFIG if newsletter_conf["name"] == newsletter_name)
-
-        llm_config = next((llm_conf for llm_conf in config.LLM_CONFIG if llm_conf["id"] == newsletter_config["llm"]), None)
-        if not llm_config:
-            raise ValueError(f"LLM config not found for newsletter {newsletter_name}")
-
-        # Call OpenAI
-        openai_args = dict(
-            model=llm_config["model"],
-            messages=[
-                {
-                    "role": "system",
-                    "content": llm_config["system_prompt"],
-                },
-                {
-                    "role": "user",
-                    "content": extracted_text,
-                },
-            ],
-            temperature=llm_config["temperature"],
-            top_p=llm_config["top_p"],
+def generate_newsletter():
+    # Get last newsletter date
+    with create_session() as session:
+        last_newsletter = (
+            session.query(Newsletter).order_by(Newsletter.created_at.desc()).first()
         )
-        with open(Path(config.OUTPUT_DIR) / f"{newsletter_name} - OpenAI args.json", "w") as f:
-            json.dump(openai_args, f, indent="\t", ensure_ascii=False)
-        response = client.chat.completions.create(**openai_args)
+        last_newsletter_date = (
+            last_newsletter.created_at.date() if last_newsletter else None
+        )
 
-        response_md = response.choices[0].message.content
-        newsletter_md += [
-            "---",
-            f"# {newsletter_name}",
-            response_md,
-        ]
+    # Get all extracts since last newsletter (filter only if last_newsletter_date is not None)
+    # Order by content_date asc
+    with create_session() as session:
+        extracts = (
+            session.query(Extract)
+            .filter(
+                Extract.content_date > last_newsletter_date
+                if last_newsletter_date
+                else True
+            )
+            .order_by(Extract.content_date.asc())
+            .all()
+        )
 
-    output_file = Path(config.OUTPUT_DIR) / f"newsletter.html"
-    output_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_file, "w") as f:
-        if len(newsletter_md) > 0:
-            html_body = markdown('\n'.join(newsletter_md))
-            html = f"""
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <style>
-                    {config.CUSTOM_CSS}
-                </style>
-            </head>
-            <body>
-            {html_body}
-            </body>
-            </html>
-            """
-            f.write(html)
-        else:
-            f.write("No messages to process")
+    # Group by config
+    grouped_extracts = {}
+    for extract in extracts:
+        config_name = extract.name
+        if config_name not in grouped_extracts:
+            grouped_extracts[config_name] = {
+                "config": extract.config,
+                "texts": [],
+            }
+        # Convert to text
+        extractor_config = extractors_config.get(extract.config["type"])
+        if not extractor_config:
+            logging.warning(f"Extractor config not found for {config_name}")
+            continue
+        extractor_class = extractor_config["extractor_class"]
+        extractor_instance: ExtractorABC = extractor_class()
+        text = extractor_instance.row_to_string(extract.content)
+        grouped_extracts[config_name]["texts"].append(text)
 
-    return output_file
+    source_texts = []
+    for config_name, config_data in grouped_extracts.items():
+        source_text = f"# {config_name}\n\n{'\n'.join(config_data['texts'])}"
+        source_texts.append(source_text)
+
+    # Join all texts
+    source_text = "\n\n---\n\n".join(source_texts)
+
+    response = chat(
+        prompt=source_text,
+        system_prompt=config.LLM_CONFIG["system_prompt"],
+        model=config.LLM_CONFIG["model_name"],
+        base_url=config.LLM_CONFIG["base_url"],
+        api_key=os.environ[config.LLM_CONFIG["api_key_name"]],
+        openai_chat_kwargs=config.LLM_CONFIG["params"],
+    )
+
+    response_message = response.choices[0].message.content
+
+    return response_message
+
+
+if __name__ == "__main__":
+    r = generate_newsletter()

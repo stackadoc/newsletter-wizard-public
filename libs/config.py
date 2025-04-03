@@ -5,8 +5,8 @@ from pathlib import Path
 
 import yaml
 from dotenv import load_dotenv
-
-from libs.extractors.extractors.DiscordExtractor import DiscordExtractor
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 
@@ -75,10 +75,6 @@ LAST_RUN_FILE = PROJECT_DIR / "config/last_run.txt"
 OUTPUT_DIR = (PROJECT_DIR / f"output/{date.today().strftime('%Y-%m-%d')}").as_posix()
 Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 
-EXTRACTORS = {
-    "discord": DiscordExtractor,
-}
-
 with open(PROJECT_DIR / "config/settings.yaml") as f:
     settings = yaml.safe_load(f)
 
@@ -88,18 +84,34 @@ with open(PROJECT_DIR / "config/settings.yaml") as f:
     # Newsletters
     NEWSLETTERS_CONFIG = settings["newsletters"]
 
+    # Ensure all newsletter names are unique
+    newsletter_names = [newsletter["name"] for newsletter in NEWSLETTERS_CONFIG]
+    if len(newsletter_names) != len(set(newsletter_names)):
+        raise ValueError(f"Newsletter names must be unique in {PROJECT_DIR / "config/settings.yaml"}")
+
     # Email
     MAILGUN_DOMAIN = settings["email"]["mailgun_domain"]
     MAILGUN_IS_EU = settings["email"]["mailgun_is_eu"]
     EMAIL_TO = settings["email"]["email_to"]
 
-    # Custom
+    # CSS
     if (PROJECT_DIR / "config/custom.css").exists():
         with open(PROJECT_DIR / "config/custom.css") as custom_css_file:
             CUSTOM_CSS = custom_css_file.read()
     else:
         CUSTOM_CSS = ""
 
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
 MAILGUN_API_KEY = os.environ["MAILGUN_API_KEY"]
+
+# ========== DATABASE ============================================================================ #
+
+db_user = os.environ["DB_USER"]
+db_password = os.environ["DB_PASSWORD"]
+db_host = os.environ["DB_HOST"]
+db_port = os.environ["DB_PORT"]
+db_name = os.environ["DB_NAME"]
+db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+create_session = sessionmaker(
+    bind=create_engine(db_uri, client_encoding="utf8", pool_size=50)
+)
