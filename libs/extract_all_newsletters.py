@@ -1,30 +1,61 @@
 import logging
-from datetime import date
+from datetime import date, datetime
 from typing import List
 
 from libs import config
+from libs.config import create_session
 from libs.db_helper import insert_extracts
+from libs.db_models import Source, Extract
+from libs.extractors.ExtractorABC import ExtractorABC
 from libs.extractors.extractors_config import extractors_config
 from libs.types.ExtractorOutputType import ExtractorOutputType
 
 
-def extract_all_newsletters(date_start: date):
+def extract_all_newsletters():
 
-    for newsletter in config.NEWSLETTERS_CONFIG:
-        extractor_config = extractors_config.get(newsletter["type"])
+    # Get all Sources
+    with create_session() as session:
+        sources: List[Source] = (
+            session
+            .query(Source)
+            .all()
+        )
+
+    for source in sources:
+        # Get last Extract date
+        with create_session() as session:
+            last_extract: Extract | None = (
+                session
+                .query(Extract)
+                .filter(Extract.source_id == source.id)
+                .order_by(Extract.content_date.desc())
+                .first()
+            )
+            if not last_extract:
+                logging.info(f"First extract for {source}. Will extract all messages sice 7 days.")
+                date_start = datetime.now() - timedelta(days=7)
+            else:
+                date_start = last_extract.content_date
+
+        extractor_config = extractors_config.get(source.type)
         if not extractor_config:
-            logging.warning(f"Type {newsletter['type']} for newsletter {newsletter['name']} is not available (ignored)")
+            logging.warning(f"Type {source.type} for {source} is not available (ignored)")
             continue
 
-        newsletter_config = extractor_config["config_type"](**newsletter)
-        extractor = extractor_config["extractor_class"]()
-        data: List[ExtractorOutputType] = extractor.extract(date_start, newsletter_config)
-        insert_extracts(newsletter_config, data)
+        extractor: ExtractorABC = extractor_config["extractor_class"]()
+        logging.info(f"Get messages for {source}...")
+        data: List[ExtractorOutputType] = extractor.extract(date_start, source)
+        if data:
+            logging.info(f"Insert {len(data)} messages for {source}...")
+            insert_extracts(source, data)
+        else:
+            logging.info(f"No messages found for {source}")
+
 
 
 if __name__ == "__main__":
     from datetime import timedelta
-    extract_all_newsletters(date.today() - timedelta(days=7))
+    extract_all_newsletters()
 
     # import json
     # with open("/tmp/output.json", "w") as f:

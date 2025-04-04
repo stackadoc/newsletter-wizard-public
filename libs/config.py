@@ -54,6 +54,7 @@ logging.getLogger("numba").setLevel(logging.WARNING)
 logging.getLogger("multipart").setLevel(logging.WARNING)
 logging.getLogger("aiobotocore").setLevel(logging.WARNING)
 logging.getLogger("openai").setLevel(logging.WARNING)
+logging.getLogger("PIL").setLevel(logging.WARNING)
 
 root_logger = logging.getLogger()
 
@@ -75,32 +76,6 @@ LAST_RUN_FILE = PROJECT_DIR / "config/last_run.txt"
 OUTPUT_DIR = (PROJECT_DIR / f"output/{date.today().strftime('%Y-%m-%d')}").as_posix()
 Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 
-with open(PROJECT_DIR / "config/settings.yaml") as f:
-    settings = yaml.safe_load(f)
-
-    # LLM
-    LLM_CONFIG = settings["llm"]
-
-    # Newsletters
-    NEWSLETTERS_CONFIG = settings["newsletters"]
-
-    # Ensure all newsletter names are unique
-    newsletter_names = [newsletter["name"] for newsletter in NEWSLETTERS_CONFIG]
-    if len(newsletter_names) != len(set(newsletter_names)):
-        raise ValueError(f"Newsletter names must be unique in {PROJECT_DIR / "config/settings.yaml"}")
-
-    # Email
-    MAILGUN_DOMAIN = settings["email"]["mailgun_domain"]
-    MAILGUN_IS_EU = settings["email"]["mailgun_is_eu"]
-    EMAIL_TO = settings["email"]["email_to"]
-
-    # CSS
-    if (PROJECT_DIR / "config/custom.css").exists():
-        with open(PROJECT_DIR / "config/custom.css") as custom_css_file:
-            CUSTOM_CSS = custom_css_file.read()
-    else:
-        CUSTOM_CSS = ""
-
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
 MAILGUN_API_KEY = os.environ["MAILGUN_API_KEY"]
 
@@ -115,3 +90,11 @@ db_uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 create_session = sessionmaker(
     bind=create_engine(db_uri, client_encoding="utf8", pool_size=50)
 )
+
+# ========= AWS ================================================================================== #
+
+CUSTOM_AWS_ENDPOINT_URL = os.environ["CUSTOM_AWS_ENDPOINT_URL"]
+CUSTOM_AWS_ACCESS_KEY_ID = os.environ["CUSTOM_AWS_ACCESS_KEY_ID"]
+CUSTOM_AWS_SECRET_ACCESS_KEY = os.environ["CUSTOM_AWS_SECRET_ACCESS_KEY"]
+CUSTOM_AWS_REGION_NAME = os.environ["CUSTOM_AWS_REGION_NAME"]
+CUSTOM_AWS_BUCKET_NAME = os.environ["CUSTOM_AWS_BUCKET_NAME"]

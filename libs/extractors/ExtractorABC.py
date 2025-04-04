@@ -1,11 +1,11 @@
 import abc
-from datetime import date
+from datetime import datetime
 from pathlib import Path
 from typing import List
 
 from libs import config
+from libs.db_models import Source
 from libs.types.ExtractorOutputType import ExtractorOutputType
-from libs.types.NewsletterConfigType import BaseNewsletterConfig
 
 
 class ExtractorABC(abc.ABC):
@@ -17,7 +17,7 @@ class ExtractorABC(abc.ABC):
         return extract_dir
 
     @abc.abstractmethod
-    def extract(self, date_start: date, newsletter_config: BaseNewsletterConfig) -> List[ExtractorOutputType]:
+    def extract(self, date_start: datetime, newsletter_config: Source) -> List[ExtractorOutputType]:
         raise NotImplemented("Method not implemented")
 
     @abc.abstractmethod

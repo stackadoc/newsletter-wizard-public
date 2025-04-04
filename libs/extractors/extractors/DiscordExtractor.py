@@ -3,14 +3,14 @@ import logging
 import re
 import subprocess
 import tempfile
-from datetime import date, datetime
+from datetime import datetime
 from pathlib import Path
 from typing import List
 
 from libs import config
+from libs.db_models import Source
 from libs.extractors.ExtractorABC import ExtractorABC
 from libs.types.ExtractorOutputType import ExtractorOutputType
-from libs.types.NewsletterConfigType import DiscordNewsletterConfig
 
 
 class DiscordExtractor(ExtractorABC):
@@ -50,9 +50,9 @@ class DiscordExtractor(ExtractorABC):
 
         return message_str
 
-    def extract(self, date_start: date, newsletter_config: DiscordNewsletterConfig) -> List[ExtractorOutputType]:
+    def extract(self, date_start: datetime, newsletter_config: Source) -> List[ExtractorOutputType]:
 
-        channels_params = ["-c", newsletter_config.channel]
+        channels_params = ["-c", newsletter_config.config["channel"]]
 
         with tempfile.TemporaryDirectory() as temp_dir:
             output_path = Path(temp_dir) / "%G - %C.json"
@@ -64,30 +64,29 @@ class DiscordExtractor(ExtractorABC):
                 "-t",
                 config.DISCORD_TOKEN,
                 "--after",
-                date_start.strftime("%Y-%m-%d %H:%M"),
+                date_start.strftime("%Y-%m-%d %H:%M:%S"),
                 "-f",
                 "Json",
                 "-o",
                 output_path,
             ] + channels_params
 
-            logging.info(f"Get messages for newsletter \"{newsletter_config.name}\"...")
-            logging.info(
+            logging.debug(
                 f"Command: {' '.join(command).replace(config.DISCORD_TOKEN, '<discord_token>')}"
             )
             process = subprocess.Popen(
                 command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
 
-            # Stream stdout and stderr in files
-            for line in process.stdout:
-                if self._check_errors(line) == "invalid_token":
-                    raise ValueError("Invalid Discord token")
-            for line in process.stderr:
-                if self._check_errors(line) == "invalid_token":
-                    raise ValueError("Invalid Discord token")
+            stdout_output, stderr_output = process.communicate()
 
-            process.wait()  # Wait for the process to complete
+            # Check for errors in the captured output
+            if self._check_errors(stdout_output):
+                logging.error(stdout_output)
+                raise ValueError("Error in Discord chat exporter")
+            if self._check_errors(stderr_output):
+                logging.error(stderr_output)
+                raise ValueError("Error in Discord chat exporter")
 
             # Read json file and format messages to text
             files = list(Path(temp_dir).glob("*.json"))
@@ -98,9 +97,9 @@ class DiscordExtractor(ExtractorABC):
                 extract_data = json.load(f)
                 messages = [
                     ExtractorOutputType(
+                        content_id=message["id"],
                         content_date=datetime.fromisoformat(message["timestamp"]),
                         content=message,
-                        content_id=message["id"],
                     )
                     for message in extract_data["messages"]
                 ]
