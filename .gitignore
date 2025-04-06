@@ -10,6 +10,6 @@ config/*
 /output/
 
 # Discord chat exporter
-/discord_chat_exporter/
+backend/discord_chat_exporter/
 
 .env
