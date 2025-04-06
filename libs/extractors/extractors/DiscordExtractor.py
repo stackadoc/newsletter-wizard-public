@@ -64,7 +64,7 @@ class DiscordExtractor(ExtractorABC):
                 "-t",
                 config.DISCORD_TOKEN,
                 "--after",
-                date_start.strftime("%Y-%m-%d %H:%M:%S"),
+                date_start.strftime("%Y-%m-%d %H:%M:%S+00:00"),
                 "-f",
                 "Json",
                 "-o",

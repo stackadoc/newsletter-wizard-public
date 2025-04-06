@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from sqlalchemy.dialects.postgresql import insert
@@ -17,7 +18,7 @@ def insert_extracts(
             "extractor_type": source.type,
             "config": source.config,
             "source_id": source.id,
-            "content": data.content,
+            "content": json.loads(json.dumps(data.content, ensure_ascii=False, default=str)),
             "content_date": data.content_date,
             "content_id": data.content_id,
         }

@@ -43,7 +43,7 @@ def extract_all_newsletters():
             continue
 
         extractor: ExtractorABC = extractor_config["extractor_class"]()
-        logging.info(f"Get messages for {source}...")
+        logging.info(f"Get messages for {source} (start date = {date_start})...")
         data: List[ExtractorOutputType] = extractor.extract(date_start, source)
         if data:
             logging.info(f"Insert {len(data)} messages for {source}...")

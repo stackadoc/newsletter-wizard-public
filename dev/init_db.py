@@ -107,6 +107,15 @@ sources_data = [
         type="discord",
         config={"channel": "1177304954059374744"},
     ),
+
+    # Reddit LLM
+    Source(
+        name="Reddit r/LocalLLaMA",
+        type="reddit",
+        config={
+            "subreddit": "LocalLLaMA",
+        },
+    ),
 ]
 
 # Init newsletter configs
@@ -119,6 +128,7 @@ newsletter_configs = [
             "Discord server Nous Research, channel #ask-about-llm",
             "Discord server LlamaIndex, channel #general",
             "Discord server Learn Prompting, channel #news",
+            "Reddit r/LocalLLaMA",
         ],
         "llm_config": "Gemini 2.5 Pro (Tech)",
     },

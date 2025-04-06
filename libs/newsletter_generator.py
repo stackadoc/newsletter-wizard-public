@@ -89,6 +89,10 @@ def generate_newsletter():
             # Concatenate the texts for each source
             source_text = "\n\n---\n\n".join(source_text_str)
 
+            # with open('/tmp/test.txt', 'w') as f:
+            #     f.write(source_text)
+            #     1/0
+
             # Get the LLM config for this newsletter
             llm_config = session.get(LLMConfig, newsletter_config.llm_config_id)
 
