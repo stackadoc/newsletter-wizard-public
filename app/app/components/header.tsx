@@ -17,13 +17,16 @@ const Header = () => {
                         />
                     </Link>
                     <Link to="/">
-                        <span className="font-semibold text-lg">My Awesome Blog</span>
+                        <span className="font-semibold text-lg">Newsletter Wizard</span>
                     </Link>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">Fake Button 1</Button>
-                    <Button variant="ghost" size="sm">Fake Button 2</Button>
-                    <Button variant="ghost" size="sm">Fake Button 3</Button>
+                    <Link to="/">
+                        <Button variant="ghost" size="sm">Home</Button>
+                    </Link>
+                    <Link to="/about">
+                        <Button variant="ghost" size="sm">About</Button>
+                    </Link>
                     <ModeToggle />
                 </div>
             </nav>
