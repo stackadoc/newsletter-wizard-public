@@ -21,7 +21,7 @@ export default function Homepage() {
                             </div>
                             <div className="space-x-4 animate-in fade-in slide-in-from-bottom duration-700 delay-300">
 
-                                <Button effect="expandIcon" icon={Rss} iconPlacement="right">
+                                <Button variant="outline" effect="expandIcon" icon={Rss} iconPlacement="right">
                                     Read Last News
                                 </Button>
 

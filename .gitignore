@@ -13,3 +13,4 @@ config/*
 backend/discord_chat_exporter/
 
 .env
+/backend/backend.iml
