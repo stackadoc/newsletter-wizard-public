@@ -1,0 +1,1 @@
+ALTER TABLE "newsletter_config" ALTER COLUMN "image_url" SET NOT NULL;
