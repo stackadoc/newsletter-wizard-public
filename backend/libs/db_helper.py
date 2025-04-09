@@ -9,7 +9,6 @@ from libs.types.ExtractorOutputType import ExtractorOutputType
 
 
 def insert_extracts(
-        # newsletter_config: BaseNewsletterConfig,
         source: Source,
         data_list: List[ExtractorOutputType],
 ) -> None:
@@ -32,7 +31,7 @@ def insert_extracts(
     # Specify the constraint name or the columns involved in the unique constraint
     # Using the constraint name is generally more robust if columns change later
     stmt = stmt.on_conflict_do_nothing(
-        constraint='uq_extract_source_id_content_id'
+        index_elements=['source_id', 'content_id']
     )
 
     with create_session() as session:

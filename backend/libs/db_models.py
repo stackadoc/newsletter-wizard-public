@@ -117,6 +117,7 @@ class NewsletterConfig(IdBaseMixin, TimestampBaseMixin):
 
     name: str = field(metadata={"sa": Column(String, nullable=False)})
     slug: str = field(metadata={"sa": Column(String, nullable=False)})
+    image_url: str = field(metadata={"sa": Column(String, nullable=False)})
 
     # Foreign key for one-to-many relationship with LLMConfig
     llm_config_id: int = field(metadata={"sa": Column(Integer, ForeignKey("llm_config.id"), nullable=False)})
@@ -181,6 +182,7 @@ class Newsletter(IdBaseMixin, TimestampBaseMixin):
     input_text: str = field(metadata={"sa": Column(Text, nullable=False)})
     output_markdown: str = field(metadata={"sa": Column(Text, nullable=False)})
     output_html: str = field(metadata={"sa": Column(Text, nullable=False)})
+    published_at: datetime.datetime = field(metadata={"sa": Column(DateTime, nullable=False)})
 
     title: str = field(metadata={"sa": Column(String, nullable=False)})
     slug: str = field(metadata={"sa": Column(String, nullable=False)})

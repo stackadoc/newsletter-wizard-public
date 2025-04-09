@@ -77,7 +77,6 @@ OUTPUT_DIR = (PROJECT_DIR / f"output/{date.today().strftime('%Y-%m-%d')}").as_po
 Path(OUTPUT_DIR).mkdir(parents=True, exist_ok=True)
 
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
-MAILGUN_API_KEY = os.environ["MAILGUN_API_KEY"]
 
 # ========== DATABASE ============================================================================ #
 
