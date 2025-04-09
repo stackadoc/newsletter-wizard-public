@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import {DB_URI} from "~/lib/constants";
+import * as schema from './schema';
 
-const db = drizzle(DB_URI);
+export const db = drizzle(DB_URI, { schema });

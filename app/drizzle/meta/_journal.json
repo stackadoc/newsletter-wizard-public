@@ -29,6 +29,20 @@
       "when": 1744211083814,
       "tag": "0003_image_not_null",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1744227812817,
+      "tag": "0004_remove_input_text",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1744230112045,
+      "tag": "0005_remove_output_html",
+      "breakpoints": true
     }
   ]
 }

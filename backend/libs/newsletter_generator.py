@@ -6,7 +6,6 @@ from typing import Dict, List, Tuple
 
 import requests
 from PIL import Image
-from markdown import markdown
 from openai import OpenAI
 from slugify import slugify
 from sqlalchemy import and_
@@ -174,16 +173,13 @@ def generate_newsletter():
 
                 response_markdown = response.choices[0].message.content
 
-                # Convert to HTML
-                response_html = markdown(response_markdown)
-
                 today_str = datetime.date.today().strftime("%Y-%m-%d")
 
                 # Generate a title for the newsletter
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter title...")
                 title_response = chat(
                     prompt=response_markdown,
-                    system_prompt="Generate a title for this newsletter that I can use for my Blog. Give me only the title and nothing else.",
+                    system_prompt="Generate a title for this newsletter that I can use for my Blog. Give me only the title and nothing else. The title must not contains any quotes or dates. It must contains at most 10 words. The title must be in English.",
                     model="gpt-4o",
                     base_url="https://api.openai.com/v1",
                     api_key=os.environ["OPENAI_API_KEY"],
@@ -192,6 +188,14 @@ def generate_newsletter():
                 title = title_response.choices[0].message.content.strip('"')
                 logging.info(f"{newsletter_config} | Generated title: {title}")
                 title_slug = slugify(title)
+
+                # Cut the slug to 50 characters. Cut on a dash.
+                max_slug_length = 50
+                if len(title_slug) > max_slug_length:
+                    title_slug = title_slug[:max_slug_length]
+                    last_dash = title_slug.rfind("-")
+                    if last_dash != -1:
+                        title_slug = title_slug[:last_dash]
 
                 # Generate an image from the newsletter
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter image...")
@@ -243,9 +247,7 @@ def generate_newsletter():
                     model_name=llm_config.model_name,
                     params=llm_config.params,
                     system_prompt=llm_config.system_prompt,
-                    input_text=source_text,
                     output_markdown=response_markdown,
-                    output_html=response_html,
                     newsletter_config_id=newsletter_config.id,
                     title=title,
                     slug=title_slug,

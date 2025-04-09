@@ -179,9 +179,7 @@ class Newsletter(IdBaseMixin, TimestampBaseMixin):
     model_name: str = field(metadata={"sa": Column(String, nullable=False)})
     params: dict = field(metadata={"sa": Column(JSONB, nullable=False)})
     system_prompt: str = field(metadata={"sa": Column(Text, nullable=False)})
-    input_text: str = field(metadata={"sa": Column(Text, nullable=False)})
     output_markdown: str = field(metadata={"sa": Column(Text, nullable=False)})
-    output_html: str = field(metadata={"sa": Column(Text, nullable=False)})
     published_at: datetime.datetime = field(metadata={"sa": Column(DateTime, nullable=False)})
 
     title: str = field(metadata={"sa": Column(String, nullable=False)})

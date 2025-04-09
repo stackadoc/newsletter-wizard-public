@@ -1,7 +1,7 @@
 from libs.config import create_session
 from libs.db_models import Source, NewsletterConfig, LLMConfig
 
-system_prompt = """You do technical monitoring on Discord servers. Your role is to produce a newsletter on the latest messages received.
+system_prompt = """You do technical monitoring on various sources like Discord and Reddit. Your role is to produce a newsletter on the latest messages received.
 
 Write only the chapters of the newsletter, with a title and content for each chapter. Each chapter should not exceed 50 words.
 Keep it short and concise. Include in your newsletter only information that is technically advanced for a very experienced user.
