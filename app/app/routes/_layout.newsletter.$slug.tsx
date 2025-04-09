@@ -4,6 +4,13 @@ import {markdownToHtml} from "~/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import {AspectRatio} from "~/components/ui/aspect-ratio";
 
+import styles from "~/styles/newsletter.css?url";
+import type {LinksFunction} from "react-router";
+
+export const links: LinksFunction = () => [
+    { rel: "stylesheet", href: styles },
+];
+
 type ServerData = {
     newsletter: {
         publishedAt: Date;
@@ -35,7 +42,7 @@ export default function Newsletter({
 }: Route.ComponentProps) {
     const { newsletter } = loaderData;
 
-    const formattedDate = new Date(newsletter.publishedAt).toLocaleDateString();
+    const formattedDate = new Date(newsletter.publishedAt).toISOString().split("T")[0];
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -49,6 +56,9 @@ export default function Newsletter({
                         />
                     </AspectRatio>
                 )}
+                <span className="block text-xs italic text-muted-foreground px-6 pt-3 pb-1 text-center md:text-left">
+                    AI-generated content and visuals, informed by online data.
+                </span>
                 <CardHeader className="p-6">
                     <CardTitle className="text-3xl lg:text-4xl font-bold mb-2">{newsletter.title}</CardTitle>
                     <p className="text-sm text-muted-foreground">
@@ -56,13 +66,10 @@ export default function Newsletter({
                     </p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                    {/* Apply prose styles for Tailwind Typography plugin */}
-                    {/* Ensure you have @tailwindcss/typography installed and configured */}
-                    <div
-                        className="prose dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-primary hover:prose-a:underline"
+                    <article
+                        className="newsletter-content"
                         dangerouslySetInnerHTML={{ __html: newsletter.outputHtml }}
                     />
-                    <i>AI-generated content and visuals, informed by online data.</i>
                 </CardContent>
             </Card>
         </div>

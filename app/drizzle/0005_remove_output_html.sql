@@ -1,0 +1,1 @@
+ALTER TABLE "newsletter" DROP COLUMN "output_html";
