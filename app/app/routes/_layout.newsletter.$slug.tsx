@@ -1,6 +1,6 @@
 import type { Route } from "./+types/_layout.newsletter.$slug.tsx";
 import {getNewsletterBySlug} from "~/actions/newsletters-actions";
-import {markdownToHtml} from "~/lib/utils";
+import {addTargetBlankToLinks, markdownToHtml} from "~/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import {AspectRatio} from "~/components/ui/aspect-ratio";
 
@@ -25,10 +25,14 @@ export async function loader({ params }: Route.LoaderArgs) {
     if (!newsletterFull) {
         throw new Response("Not Found", { status: 404 });
     }
+    let outputHtml = markdownToHtml(newsletterFull.outputMarkdown);
+    // Modify the HTML string to add target="_blank" to links
+    outputHtml = addTargetBlankToLinks(outputHtml);
+
     const data: ServerData = {
         newsletter: {
             publishedAt: newsletterFull.publishedAt,
-            outputHtml: markdownToHtml(newsletterFull.outputMarkdown),
+            outputHtml: outputHtml, // Use the modified HTML
             title: newsletterFull.title,
             imageUrl: newsletterFull.imageUrl,
         }
