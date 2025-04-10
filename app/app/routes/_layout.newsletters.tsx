@@ -50,7 +50,7 @@ function groupNewsletters(data: NewsletterWithConfigSelect[]): GroupedNewsletter
             publishedAt: newsletter.publishedAt,
             slug: newsletter.slug,
             title: newsletter.title,
-            imageUrl: newsletter.imageUrl
+            imageUrl: newsletter.imagesData.medium,
         });
     });
 

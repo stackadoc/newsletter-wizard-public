@@ -1,0 +1,1 @@
+ALTER TABLE "newsletter" ALTER COLUMN "image_url" DROP NOT NULL;

@@ -1,0 +1,1 @@
+ALTER TABLE "newsletter" ADD COLUMN "images_data" jsonb;

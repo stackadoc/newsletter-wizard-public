@@ -18,6 +18,11 @@ from libs.extractors.extractors_config import extractors_config
 from libs.openai_chat import chat
 from libs.s3_helper import upload_file_from_url, upload_from_bytes
 
+images_widths = {
+    "full": None,
+    "medium": (862, 484),
+    "small": (266, 149),
+}
 
 def get_dates_boundaries(newsletter_config: NewsletterConfig, nb_days: int =3) -> List[Tuple[datetime.datetime, datetime.datetime]]:
     """
@@ -105,9 +110,13 @@ def generate_newsletter():
 
         for idx, newsletter_config in enumerate(newsletter_configs):
             dates_boundaries = get_dates_boundaries(newsletter_config)
-            print(f"Dates boundaries for {newsletter_config}:")
-            for start_date, end_date in dates_boundaries:
-                print(f"  {start_date} - {end_date}")
+            logging.info(f"Dates boundaries for {newsletter_config}:")
+            if dates_boundaries:
+                for start_date, end_date in dates_boundaries:
+                    logging.info(f"  {start_date} - {end_date}")
+            else:
+                logging.info(f"No newsletter to generate for {newsletter_config}.")
+                continue
             # continue
             for start_date, end_date in dates_boundaries:
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter between {start_date} and {end_date}...")
@@ -186,7 +195,7 @@ def generate_newsletter():
                     openai_chat_kwargs={},
                 )
                 title = title_response.choices[0].message.content.strip('"')
-                logging.info(f"{newsletter_config} | Generated title: {title}")
+                logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generated title: {title}")
                 title_slug = slugify(title)
 
                 # Cut the slug to 50 characters. Cut on a dash.
@@ -216,30 +225,35 @@ def generate_newsletter():
                     n=1,
                 )
                 image_url = image_response.data[0].url
-
-                # Convert image to webp format
-                response = requests.get(image_url)
-                response.raise_for_status()
-
-                original_image_bytes = io.BytesIO(response.content)
-                img = Image.open(original_image_bytes)
-                webp_buffer = io.BytesIO()
-                img.save(webp_buffer, format="WEBP")
-                webp_buffer.seek(0)
-                image_bytes = webp_buffer.getvalue()
-
-
-                image_url = upload_from_bytes(
-                    image_bytes=image_bytes,
-                    bucket_name=config.CUSTOM_AWS_BUCKET_NAME,
-                    s3_key=f"generated-image/{newsletter_config.slug}/{today_str}/{title_slug}.png",
-                    extra={
-                        "ACL": "public-read",
-                        "ContentType": "image/webp",
-                    },
-                )
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generated image: {image_url}")
 
+                # Resize and convert the image to webp
+                response = requests.get(image_url)
+                response.raise_for_status()
+                original_image_bytes = io.BytesIO(response.content)
+                img = Image.open(original_image_bytes)
+                images_data = {}
+                for size_label, image_size in images_widths.items():
+                    if image_size:
+                        img_width, img_height = image_size
+                        img.thumbnail((img_width, img_height))
+                    webp_buffer = io.BytesIO()
+                    img.save(webp_buffer, format="WEBP", quality=80)
+                    webp_buffer.seek(0)
+                    image_bytes = webp_buffer.getvalue()
+
+                    s3_key = f"generated-image/{newsletter_config.slug}/{end_date.date().isoformat()}/{size_label}/{title_slug}.webp"
+                    image_url = upload_from_bytes(
+                        image_bytes=image_bytes,
+                        bucket_name=config.CUSTOM_AWS_BUCKET_NAME,
+                        s3_key=s3_key,
+                        extra={
+                            "ACL": "public-read",
+                            "ContentType": "image/webp",
+                        },
+                    )
+
+                    images_data[size_label] = image_url
 
                 # Save the newsletter
                 newsletter = Newsletter(
@@ -251,7 +265,7 @@ def generate_newsletter():
                     newsletter_config_id=newsletter_config.id,
                     title=title,
                     slug=title_slug,
-                    image_url=image_url,
+                    images_data=images_data,
                     published_at=end_date,
                 )
 

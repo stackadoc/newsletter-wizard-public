@@ -65,6 +65,12 @@ export const extractTable = pgTable('extract', {
     };
 });
 
+type ImagesDataType = {
+    full: string;
+    medium: string;
+    small: string;
+}
+
 export const newsletterTable = pgTable('newsletter', {
     id: serial('id').primaryKey(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -77,7 +83,7 @@ export const newsletterTable = pgTable('newsletter', {
     outputMarkdown: text('output_markdown').notNull(),
     title: text('title').notNull(),
     slug: text('slug').notNull(),
-    imageUrl: text('image_url').notNull(),
+    imagesData: jsonb('images_data').notNull().$type<ImagesDataType>(),
     newsletterConfigId: integer('newsletter_config_id')
         .notNull()
         .references(() => newsletterConfigTable.id),

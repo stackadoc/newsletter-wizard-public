@@ -51,7 +51,7 @@ export async function loader({ params }: Route.LoaderArgs) {
             publishedAt: newsletterFull.publishedAt,
             outputHtml: outputHtml, // Use the modified HTML
             title: newsletterFull.title,
-            imageUrl: newsletterFull.imageUrl,
+            imageUrl: newsletterFull.imagesData.medium,
         }
     };
 

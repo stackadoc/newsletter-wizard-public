@@ -25,7 +25,7 @@ export async function loader({ params }: Route.LoaderArgs) {
         publishedAt: newsletter.publishedAt,
         slug: newsletter.slug,
         title: newsletter.title,
-        imageUrl: newsletter.imageUrl,
+        imageUrl: newsletter.imagesData.small,
         newsletterConfigName: newsletter.newsletterConfig.name,
       }))
       .slice(0, 5);

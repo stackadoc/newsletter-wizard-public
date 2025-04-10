@@ -184,7 +184,7 @@ class Newsletter(IdBaseMixin, TimestampBaseMixin):
 
     title: str = field(metadata={"sa": Column(String, nullable=False)})
     slug: str = field(metadata={"sa": Column(String, nullable=False)})
-    image_url: str = field(metadata={"sa": Column(String, nullable=False)})
+    images_data: dict = field(metadata={"sa": Column(JSONB, nullable=False)})
 
     # Foreign key for one-to-many relationship with NewsletterConfig
     newsletter_config_id: int = field(metadata={"sa": Column(Integer, ForeignKey("newsletter_config.id"), nullable=False)})
