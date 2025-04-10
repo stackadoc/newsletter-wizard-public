@@ -6,7 +6,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import React from "react";
 import {Link} from "react-router";
 import {getAllNewsletters} from "~/actions/newsletters-actions";
-import NewsletterCarousel from "~/components/newsletters-carousel";
+import NewsletterCard from "~/components/newsletter-card";
 
 export function meta() {
   return [
@@ -28,7 +28,7 @@ export async function loader({ params }: Route.LoaderArgs) {
         imageUrl: newsletter.imageUrl,
         newsletterConfigName: newsletter.newsletterConfig.name,
       }))
-      .slice(0, 3);
+      .slice(0, 5);
 
   const data = { newsletters: lastNewsletters };
 
@@ -72,8 +72,26 @@ export default function _layout_index({
           </section>
 
           {/* Newsletter Carousel section */}
-          <section className="w-full my-12 md:my-36 h-24">
-            <NewsletterCarousel newsletters={newsletters} />
+          <section className="w-full my-12 md:my-36">
+            <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-4xl md:text-5xl mb-12">
+              Last News
+            </h2>
+            <div className="flex flex-wrap justify-center gap-6 container px-4 md:px-6 mx-auto">
+              {newsletters.map((newsletter) => (
+                  <div
+                      key={newsletter.id}
+                      className="w-full sm:w-[45%] md:w-[30%] lg:w-[22%] xl:w-[18%] flex flex-col"
+                  >
+                    <NewsletterCard
+                        publishedAt={newsletter.publishedAt}
+                        slug={newsletter.slug}
+                        imageUrl={newsletter.imageUrl}
+                        title={newsletter.title}
+                        newsletterConfigName={newsletter.newsletterConfigName}
+                    />
+                  </div>
+              ))}
+            </div>
           </section>
 
           {/* Use Cases Section */}

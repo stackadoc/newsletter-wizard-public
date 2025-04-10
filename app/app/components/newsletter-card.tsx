@@ -1,12 +1,14 @@
-import {Link} from "react-router";
-import {Card, CardHeader, CardTitle} from "~/components/ui/card";
-import {AspectRatio} from "@radix-ui/react-aspect-ratio";
+import { Link } from "react-router";
+import { Card, CardHeader, CardTitle } from "~/components/ui/card";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { Badge } from "~/components/ui/badge"; // Import Badge
 
 interface NewsletterCardProps {
     publishedAt: Date;
     slug: string;
     imageUrl: string;
     title: string;
+    newsletterConfigName?: string; // Keep this prop
 }
 
 export default function NewsletterCard({
@@ -14,6 +16,7 @@ export default function NewsletterCard({
     slug,
     imageUrl,
     title,
+    newsletterConfigName, // Destructure the new prop
 }: NewsletterCardProps) {
 
     const formattedDate = new Date(publishedAt).toISOString().split("T")[0]
@@ -38,9 +41,14 @@ export default function NewsletterCard({
                     <CardTitle className="text-lg font-semibold leading-tight mb-1 group-hover:text-primary transition-colors duration-200"> {/* Title changes color on hover */}
                         {title}
                     </CardTitle>
-                    <p className="text-xs text-muted-foreground">
-                        Published on {formattedDate}
-                    </p>
+                    {newsletterConfigName && ( // Conditionally render the Badge
+                        <Badge variant="secondary">{newsletterConfigName}</Badge>
+                    )}
+                    <div className="flex items-center justify-between mt-2"> {/* Flex container for date and badge */}
+                        <p className="text-xs text-muted-foreground">
+                            Published on {formattedDate}
+                        </p>
+                    </div>
                 </CardHeader>
             </Card>
         </Link>
