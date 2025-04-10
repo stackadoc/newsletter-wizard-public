@@ -6,6 +6,7 @@ import {AspectRatio} from "~/components/ui/aspect-ratio";
 
 import styles from "~/styles/newsletter.css?url";
 import type {LinksFunction} from "react-router";
+import BackButton from "~/components/back-button";
 
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: styles },
@@ -50,6 +51,10 @@ export default function Newsletter({
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <div className="mb-4">
+                <BackButton />
+            </div>
+
             <Card className="overflow-hidden bg-card text-card-foreground border">
                 {newsletter.imageUrl && (
                     <AspectRatio ratio={16 / 9} className="bg-muted border-b">

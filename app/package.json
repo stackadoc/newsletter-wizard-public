@@ -21,6 +21,7 @@
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.41.0",
     "isbot": "^5.1.17",
+    "isomorphic-dompurify": "^2.23.0",
     "jsdom": "^26.0.0",
     "lucide-react": "^0.487.0",
     "marked": "^15.0.8",

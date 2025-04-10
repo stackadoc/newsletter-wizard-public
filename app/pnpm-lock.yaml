@@ -44,6 +44,9 @@ importers:
       isbot:
         specifier: ^5.1.17
         version: 5.1.25
+      isomorphic-dompurify:
+        specifier: ^2.23.0
+        version: 2.23.0
       jsdom:
         specifier: ^26.0.0
         version: 26.0.0
@@ -2345,6 +2348,10 @@ packages:
   isexe@3.1.1:
     resolution: {integrity: sha512-LpB/54B+/2J5hqQ7imZHfdU31OlgQqx7ZicVlkm9kzg9/w8GKLEcFfJl/t7DCEDueOyBAD6zCCwTO6Fzs0NoEQ==}
     engines: {node: '>=16'}
+
+  isomorphic-dompurify@2.23.0:
+    resolution: {integrity: sha512-f9w5fPJwlu+VK1uowFy4eWYgd7uxl0nQJbtorGp1OAs6JeY1qPkBQKNee1RXrnr68GqZ86PwQ6LF/5rW1TrOZQ==}
+    engines: {node: '>=18'}
 
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
@@ -5339,6 +5346,16 @@ snapshots:
   isexe@2.0.0: {}
 
   isexe@3.1.1: {}
+
+  isomorphic-dompurify@2.23.0:
+    dependencies:
+      dompurify: 3.2.5
+      jsdom: 26.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - canvas
+      - supports-color
+      - utf-8-validate
 
   jackspeak@3.4.3:
     dependencies:
