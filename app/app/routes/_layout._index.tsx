@@ -2,6 +2,7 @@ import {Button} from "~/components/ui/button";
 import {BrainCircuit, Rocket, Rss, Send} from "lucide-react";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import React from "react";
+import {Link} from "react-router";
 
 export function meta() {
   return [
@@ -28,9 +29,11 @@ export default function _layout_index() {
                 </div>
                 <div className="space-x-4 animate-in fade-in slide-in-from-bottom duration-700 delay-300">
 
-                  <Button variant="outline" effect="expandIcon" icon={Rss} iconPlacement="right">
-                    Read Last News
-                  </Button>
+                  <Link to="/newsletters">
+                    <Button variant="outline" effect="expandIcon" icon={Rss} iconPlacement="right">
+                      Read Last News
+                    </Button>
+                  </Link>
 
                   <Button effect="expandIcon" icon={Send} iconPlacement="right">
                     Subscribe
