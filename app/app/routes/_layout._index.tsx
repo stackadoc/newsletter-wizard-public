@@ -52,7 +52,7 @@ export default function _layout_index({
                     Your AI-Powered Tech Digest
                   </h1>
                   <p className="mx-auto max-w-[700px] text-neutral-700 dark:invert md:text-xl animate-in fade-in slide-in-from-bottom duration-700 delay-150">
-                    Stay ahead of the curve. We curate the latest from Reddit, Discord, HackerNews, and more, synthesized by AI into a concise newsletter.
+                    Keeping up is impossible. Our AI monitors countless posts across Reddit, Discord, HackerNews, Telegram, Twitter & more, distilling the crucial info you'd otherwise miss.
                   </p>
                 </div>
                 <div className="space-x-4 animate-in fade-in slide-in-from-bottom duration-700 delay-300">
@@ -104,28 +104,28 @@ export default function _layout_index({
                 <Card className="transform transition-transform duration-300 hover:scale-105 hover:shadow-lg bg-white dark:bg-black border dark:border-neutral-700">
                   <CardHeader className="flex flex-col items-center text-center">
                     <Rss className="w-12 h-12 mb-4" />
-                    <CardTitle>Information Gathering</CardTitle>
+                    <CardTitle>Beyond Manual Reach</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center text-neutral-700 dark:invert">
-                    <p>We constantly scan top tech communities and news sources for the most relevant discussions and breakthroughs.</p>
+                    <p>We monitor an overwhelming number of public and private tech channels daily – a scale impossible for manual tracking.</p>
                   </CardContent>
                 </Card>
                 <Card className="transform transition-transform duration-300 hover:scale-105 hover:shadow-lg bg-white dark:bg-black border dark:border-neutral-700">
                   <CardHeader className="flex flex-col items-center text-center">
                     <BrainCircuit className="w-12 h-12 mb-4 " />
-                    <CardTitle>AI Synthesis</CardTitle>
+                    <CardTitle>Intelligent Distillation</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center text-neutral-700 dark:invert">
-                    <p>Our advanced LLM processes the collected data, identifying key themes and summarizing the core information.</p>
+                    <p>Advanced AI processes this vast data stream, extracting key signals and summarizing the essential information.</p>
                   </CardContent>
                 </Card>
                 <Card className="transform transition-transform duration-300 hover:scale-105 hover:shadow-lg bg-white dark:bg-black border dark:border-neutral-700">
                   <CardHeader className="flex flex-col items-center text-center">
                     <Rocket className="w-12 h-12 mb-4 " />
-                    <CardTitle>Newsletter Delivery</CardTitle>
+                    <CardTitle>Your Daily Briefing</CardTitle>
                   </CardHeader>
                   <CardContent className="text-center text-neutral-700 dark:invert">
-                    <p>Receive a curated, easy-to-read newsletter directly in your inbox, saving you hours of research.</p>
+                    <p>Get the synthesized, crucial insights delivered concisely to your inbox, ensuring you never miss out while saving hours.</p>
                   </CardContent>
                 </Card>
               </div>

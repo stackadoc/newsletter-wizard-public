@@ -46,7 +46,7 @@ export default function AboutPage() {
                             About Newsletter Wizard
                         </h1>
                         <p className="mx-auto max-w-[700px] text-neutral-700 dark:invert md:text-xl">
-                            Newsletter Wizard is your personal AI assistant designed to keep you informed about the latest trends and discussions in the tech world. We simplify information discovery by curating content from diverse sources and delivering concise summaries directly to you.
+                            Newsletter Wizard acts as your dedicated AI scout, navigating the complex tech information landscape. We tackle the challenge of monitoring diverse, hard-to-track sources, delivering distilled insights straight to you.
                         </p>
                     </div>
                 </section>
@@ -60,28 +60,28 @@ export default function AboutPage() {
                         <Card className="bg-white dark:bg-black border dark:border-neutral-700">
                             <CardHeader className="flex flex-col items-center text-center">
                                 <Rss className="w-12 h-12 mb-4" />
-                                <CardTitle>Information Gathering</CardTitle>
+                                <CardTitle>Comprehensive Source Monitoring</CardTitle>
                             </CardHeader>
                             <CardContent className="text-center text-neutral-700 dark:invert">
-                                <p>We constantly scan top tech communities like Reddit, Discord, HackerNews, and various news sources for the most relevant discussions and breakthroughs.</p>
+                                <p>Our system continuously monitors a wide array of tech communities, including Reddit, Discord, HackerNews, Telegram, Twitter, and niche forums, capturing crucial conversations and news.</p>
                             </CardContent>
                         </Card>
                         <Card className="bg-white dark:bg-black border dark:border-neutral-700">
                             <CardHeader className="flex flex-col items-center text-center">
                                 <BrainCircuit className="w-12 h-12 mb-4" />
-                                <CardTitle>AI Synthesis</CardTitle>
+                                <CardTitle>AI-Powered Analysis</CardTitle>
                             </CardHeader>
                             <CardContent className="text-center text-neutral-700 dark:invert">
-                                <p>Our advanced Large Language Model (LLM) processes the collected data, identifying key themes, filtering noise, and summarizing the core information concisely.</p>
+                                <p>A sophisticated Large Language Model analyzes the vast amount of gathered data, identifying significant trends, filtering out irrelevant noise, and creating concise summaries of key information.</p>
                             </CardContent>
                         </Card>
                         <Card className="bg-white dark:bg-black border dark:border-neutral-700">
                             <CardHeader className="flex flex-col items-center text-center">
                                 <Rocket className="w-12 h-12 mb-4" />
-                                <CardTitle>Newsletter Delivery</CardTitle>
+                                <CardTitle>Curated Intelligence Delivery</CardTitle>
                             </CardHeader>
                             <CardContent className="text-center text-neutral-700 dark:invert">
-                                <p>You receive a curated, easy-to-read newsletter summarizing the findings, saving you valuable time and effort in staying updated.</p>
+                                <p>Receive a streamlined, easy-to-digest newsletter containing the synthesized findings, saving you hours of manual searching and ensuring you stay informed.</p>
                             </CardContent>
                         </Card>
                     </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
                         Our Mission
                     </h2>
                     <p className="mx-auto max-w-[700px] text-neutral-700 dark:invert md:text-xl">
-                        Our mission is to empower individuals and teams by providing timely, relevant, and synthesized information from the tech landscape, enabling them to stay ahead and make informed decisions without information overload.
+                        To cut through the noise of the modern tech world by leveraging AI to monitor countless sources, providing users with timely, essential, and synthesized information, enabling informed decisions without the burden of information overload.
                     </p>
                 </section>
 
