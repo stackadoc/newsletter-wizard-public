@@ -1,0 +1,25 @@
+services:
+
+  app:
+    container_name: newsletter-wizard-app
+    build:
+      context: ./app
+    env_file: ".env"
+    tty: true
+    restart: always
+    ports:
+      - "3000:3000"
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    depends_on:
+      - app
+    tty: true
+    restart: always

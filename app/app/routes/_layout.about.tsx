@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { BrainCircuit, Rocket, Rss, Linkedin } from "lucide-react"; // Import Linkedin icon
+import { BrainCircuit, Rocket, Rss } from "lucide-react";
 
 export function meta() {
     return [

@@ -13,6 +13,7 @@ Don't include the source of the information in the newsletter. The source will b
 
 For each paragraph, if available, give the links from the source that are relevant to the content of the paragraph.
 Do not include any other information or context about the links.
+Add maximum 3 links per paragraph.
 
 Don't give the newsletter an intro or outro.
 
@@ -125,6 +126,7 @@ newsletter_configs = [
     {
         "name": "LLM News",
         "slug": "llm-news",
+        "image_url": "https://newsletter-wizard.s3.fr-par.scw.cloud/newsletter-config-images/llm-news-image.webp",
         "sources": [
             "Discord server Nous Research, channel #general",
             "Discord server Nous Research, channel #ask-about-llm",
@@ -192,6 +194,7 @@ with create_session() as session:
                 sources=sources,
                 llm_config_id=llm_config.id,
                 slug=newsletter_data["slug"],
+                image_url=newsletter_data["image_url"],
             )
             newsletters_to_add.append(new_newsletter_config)
             existing_newsletters.add(newsletter_data["name"])
