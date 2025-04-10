@@ -1,10 +1,8 @@
 import type { Route } from "./+types/_layout.newsletters.tsx";
 import {getAllNewsletters} from "~/actions/newsletters-actions";
 import type {NewsletterWithConfigSelect} from "~/lib/types/newsletter-types";
-import {Link} from "react-router";
-import {Card, CardHeader, CardTitle} from "~/components/ui/card";
-import {AspectRatio} from "@radix-ui/react-aspect-ratio";
 import BackButton from "~/components/back-button";
+import NewsletterCard from "~/components/newsletter-card";
 
 type ServerData = {
     groupedNewsletters: GroupedNewsletter[];
@@ -95,38 +93,15 @@ export default function Newsletters({
 
                     {group.newsletters.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {group.newsletters.map((newsletter) => {
-                                const formattedDate = new Date(newsletter.publishedAt).toISOString().split("T")[0]
-
-                                return (
-                                    // Wrap Card with Link for navigation
-                                    <Link
-                                        key={newsletter.id}
-                                        to={`/newsletter/${newsletter.slug}`} // Adjust path as needed
-                                        className="group block" // Use group for hover effects if desired
-                                    >
-                                        <Card className="overflow-hidden h-full transition-shadow duration-200 hover:shadow-lg border bg-card text-card-foreground flex flex-col">
-                                            {newsletter.imageUrl && (
-                                                <AspectRatio ratio={16 / 9} className="bg-muted border-b">
-                                                    <img
-                                                        src={newsletter.imageUrl}
-                                                        alt={`Image for ${newsletter.title}`}
-                                                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105" // Subtle zoom on hover
-                                                    />
-                                                </AspectRatio>
-                                            )}
-                                            <CardHeader className="p-4 flex-grow">
-                                                <CardTitle className="text-lg font-semibold leading-tight mb-1 group-hover:text-primary transition-colors duration-200"> {/* Title changes color on hover */}
-                                                    {newsletter.title}
-                                                </CardTitle>
-                                                <p className="text-xs text-muted-foreground">
-                                                    Published on {formattedDate}
-                                                </p>
-                                            </CardHeader>
-                                        </Card>
-                                    </Link>
-                                );
-                            })}
+                            {group.newsletters.map((newsletter) => (
+                                <NewsletterCard
+                                    key={newsletter.id}
+                                    publishedAt={newsletter.publishedAt}
+                                    slug={newsletter.slug}
+                                    imageUrl={newsletter.imageUrl}
+                                    title={newsletter.title}
+                                />
+                            ))}
                         </div>
                     ) : (
                         <p className="text-muted-foreground">No newsletters found for {group.name}.</p>

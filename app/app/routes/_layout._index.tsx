@@ -1,8 +1,12 @@
+import type { Route } from "./+types/_layout._index.tsx";
+
 import {Button} from "~/components/ui/button";
 import {BrainCircuit, Rocket, Rss, Send} from "lucide-react";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import React from "react";
 import {Link} from "react-router";
+import {getAllNewsletters} from "~/actions/newsletters-actions";
+import NewsletterCarousel from "~/components/newsletters-carousel";
 
 export function meta() {
   return [
@@ -11,12 +15,36 @@ export function meta() {
   ];
 }
 
-export default function _layout_index() {
+export async function loader({ params }: Route.LoaderArgs) {
+  const newsletters = await getAllNewsletters();
+
+  const lastNewsletters = newsletters
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .map((newsletter) => ({
+        id: newsletter.id,
+        publishedAt: newsletter.publishedAt,
+        slug: newsletter.slug,
+        title: newsletter.title,
+        imageUrl: newsletter.imageUrl,
+        newsletterConfigName: newsletter.newsletterConfig.name,
+      }))
+      .slice(0, 3);
+
+  const data = { newsletters: lastNewsletters };
+
+  return data;
+}
+
+export default function _layout_index({
+  loaderData,
+}: Route.ComponentProps) {
+  const { newsletters } = loaderData;
+
   return (
       <div className="flex flex-col">
         <main className="flex-1">
           {/* Hero Section */}
-          <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+          <section className="w-full my-12 md:my-36">
             <div className="container px-4 md:px-6 mx-auto">
               <div className="flex flex-col items-center space-y-4 text-center">
                 <div className="space-y-2">
@@ -43,8 +71,13 @@ export default function _layout_index() {
             </div>
           </section>
 
+          {/* Newsletter Carousel section */}
+          <section className="w-full my-12 md:my-36 h-24">
+            <NewsletterCarousel newsletters={newsletters} />
+          </section>
+
           {/* Use Cases Section */}
-          <section className="w-full py-12 md:py-24 lg:py-32">
+          <section className="w-full my-12 md:my-36">
             <div className="container px-4 md:px-6 mx-auto">
               <h2 className="text-3xl font-bold tracking-tighter text-center sm:text-4xl md:text-5xl mb-12">
                 How It Works
