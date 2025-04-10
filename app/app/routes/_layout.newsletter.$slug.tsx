@@ -12,6 +12,22 @@ export const links: LinksFunction = () => [
     { rel: "stylesheet", href: styles },
 ];
 
+export const meta = ({ data }: Route.MetaArgs) => {
+    const defaultTitle = "Newsletter Wizard";
+    const defaultDescription = "Read last fresh news from Newsletter Wizard.";
+
+    // Use optional chaining to safely access nested properties
+    const newsletterTitle = data?.newsletter?.title;
+    const title = newsletterTitle ? `${newsletterTitle} | ${defaultTitle}` : defaultTitle;
+    const description = newsletterTitle ? `Read the newsletter: ${newsletterTitle}` : defaultDescription;
+
+    return [
+        { title: title },
+        { name: "description", content: description },
+    ];
+};
+
+
 type ServerData = {
     newsletter: {
         publishedAt: Date;

@@ -4,6 +4,13 @@ import type {NewsletterWithConfigSelect} from "~/lib/types/newsletter-types";
 import BackButton from "~/components/back-button";
 import NewsletterCard from "~/components/newsletter-card";
 
+export function meta() {
+    return [
+        { title: "Newsletter Wizard" },
+        { name: "description", content: "Read last fresh news from Newsletter Wizard." },
+    ];
+}
+
 type ServerData = {
     groupedNewsletters: GroupedNewsletter[];
 }
