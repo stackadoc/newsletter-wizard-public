@@ -1,0 +1,4 @@
+# Schedule script execution for 13:00 UTC (9 AM EDT / 10 AM EST)
+0 13 * * * cd /app && /usr/local/bin/poetry run python app/refresh_news.py >> /app/cron.log 2>&1
+
+# An empty line is required at the end of this file for a valid cron file.

@@ -1,0 +1,5 @@
+from libs.extract_all_newsletters import extract_all_newsletters
+from libs.newsletter_generator import generate_newsletter
+
+extract_all_newsletters()
+generate_newsletter()

@@ -1,8 +1,7 @@
 import logging
-from datetime import date, datetime
+from datetime import datetime, timedelta
 from typing import List
 
-from libs import config
 from libs.config import create_session
 from libs.db_helper import insert_extracts
 from libs.db_models import Source, Extract
@@ -54,9 +53,4 @@ def extract_all_newsletters():
 
 
 if __name__ == "__main__":
-    from datetime import timedelta
     extract_all_newsletters()
-
-    # import json
-    # with open("/tmp/output.json", "w") as f:
-    #     f.write(json.dumps(r, indent="\t", ensure_ascii=False))

@@ -1,5 +1,14 @@
 services:
 
+  backend:
+    build: .
+    container_name: news_backend
+    volumes:
+      # Mount log file for easier access
+      - ./cron.log:/app/cron.log
+      - ./backend_logs:/app/logs
+    env_file: ".env"
+
   app:
     container_name: newsletter-wizard-app
     build:
@@ -7,8 +16,6 @@ services:
     env_file: ".env"
     tty: true
     restart: always
-    ports:
-      - "3000:3000"
 
   caddy:
     image: caddy:latest

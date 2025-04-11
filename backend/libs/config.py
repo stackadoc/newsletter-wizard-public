@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 from datetime import date
@@ -12,6 +13,7 @@ load_dotenv()
 
 # ========== LOGGING ============================================================================= #
 
+logging_formatter_str = "[%(asctime)s] %(levelname)s : %(name)s %(module)s.%(funcName)s :%(lineno)d - %(message)s"
 
 class CustomColorFormatter(logging.Formatter):
     # Color codes : https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -24,17 +26,13 @@ class CustomColorFormatter(logging.Formatter):
     bold_red = "\u001b[1m\u001b[38;5;160m"
     title = "\u001b[1m\u001b[7m"
     reset = "\u001b[0m"
-    format_str = (
-            "[%(asctime)s] %(levelname)s : %(name)s %(module)s.%(funcName)s :%(lineno)d -"
-            + " %(message)s"
-    )
 
     FORMATS = {
-        logging.DEBUG: grey + format_str + reset,
-        logging.INFO: blue + format_str + reset,
-        logging.WARNING: yellow + format_str + reset,
-        logging.ERROR: red + format_str + reset,
-        logging.CRITICAL: bold_red + format_str + reset,
+        logging.DEBUG: grey + logging_formatter_str + reset,
+        logging.INFO: blue + logging_formatter_str + reset,
+        logging.WARNING: yellow + logging_formatter_str + reset,
+        logging.ERROR: red + logging_formatter_str + reset,
+        logging.CRITICAL: bold_red + logging_formatter_str + reset,
     }
 
     def format(self, record, **args):
@@ -66,6 +64,27 @@ console_handler.setFormatter(CustomColorFormatter())
 
 root_logger.addHandler(console_handler)
 
+# --- File Handler (New) ---
+# Create logs directory if it doesn't exist
+log_dir = "logs"
+os.makedirs(log_dir, exist_ok=True)
+
+# Generate filename with timestamp
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+log_filename = os.path.join(log_dir, f"{timestamp}.txt")
+
+# Create file handler
+file_handler = logging.FileHandler(log_filename)
+
+# Create a standard formatter for the file (without colors)
+file_formatter = logging.Formatter(logging_formatter_str)
+file_handler.setFormatter(file_formatter)
+
+# Add file handler to the root logger
+root_logger.addHandler(file_handler)
+# --- End of File Handler ---
+
+# ========== CONFIGURATION ======================================================================= #
 
 PROJECT_DIR = Path(__file__).parent.parent
 
