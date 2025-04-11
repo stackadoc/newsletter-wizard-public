@@ -1,6 +1,7 @@
 import {ModeToggle} from "~/components/mode-toggle";
 import {Button} from "~/components/ui/button";
 import {Link} from "react-router";
+import GithubRepoButton from "~/components/github-button";
 
 const Header = () => {
     return (
@@ -27,6 +28,7 @@ const Header = () => {
                     <Link to="/about">
                         <Button variant="ghost" size="sm">About</Button>
                     </Link>
+                    <GithubRepoButton />
                     <ModeToggle />
                 </div>
             </nav>

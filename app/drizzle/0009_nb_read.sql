@@ -1,0 +1,1 @@
+ALTER TABLE "newsletter" ADD COLUMN "nb_read" integer DEFAULT 0 NOT NULL;

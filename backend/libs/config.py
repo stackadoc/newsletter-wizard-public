@@ -11,6 +11,8 @@ from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 
+PROJECT_DIR = Path(__file__).parent.parent
+
 # ========== LOGGING ============================================================================= #
 
 logging_formatter_str = "[%(asctime)s] %(levelname)s : %(name)s %(module)s.%(funcName)s :%(lineno)d - %(message)s"
@@ -56,8 +58,8 @@ logging.getLogger("PIL").setLevel(logging.WARNING)
 
 root_logger = logging.getLogger()
 
-# root_logger.setLevel(logging.DEBUG)
-root_logger.setLevel(logging.INFO)
+root_logger.setLevel(logging.DEBUG)
+# root_logger.setLevel(logging.INFO)
 
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(CustomColorFormatter())
@@ -66,8 +68,8 @@ root_logger.addHandler(console_handler)
 
 # --- File Handler (New) ---
 # Create logs directory if it doesn't exist
-log_dir = "logs"
-os.makedirs(log_dir, exist_ok=True)
+log_dir = PROJECT_DIR / "logs"
+log_dir.mkdir(parents=True, exist_ok=True)
 
 # Generate filename with timestamp
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -85,8 +87,6 @@ root_logger.addHandler(file_handler)
 # --- End of File Handler ---
 
 # ========== CONFIGURATION ======================================================================= #
-
-PROJECT_DIR = Path(__file__).parent.parent
 
 PLAYWRIGHT_STATE_PATH = PROJECT_DIR / "local/playwright_state.json"
 
