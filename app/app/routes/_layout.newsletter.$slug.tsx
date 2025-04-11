@@ -34,6 +34,7 @@ type ServerData = {
         outputHtml: string;
         title: string;
         imageUrl: string;
+        modelName: string;
     };
 }
 
@@ -52,6 +53,7 @@ export async function loader({ params }: Route.LoaderArgs) {
             outputHtml: outputHtml, // Use the modified HTML
             title: newsletterFull.title,
             imageUrl: newsletterFull.imagesData.medium,
+            modelName: newsletterFull.modelName,
         }
     };
 
@@ -95,6 +97,10 @@ export default function Newsletter({
                         className="newsletter-content"
                         dangerouslySetInnerHTML={{ __html: newsletter.outputHtml }}
                     />
+                    <hr />
+                    <span className="block text-xs italic text-muted-foreground pt-3 pb-1 text-center md:text-left">
+                        This newsletter has been generated using the <strong>{newsletter.modelName}</strong> model.
+                    </span>
                 </CardContent>
             </Card>
         </div>
