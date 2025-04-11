@@ -2,6 +2,19 @@
 
 ## Development
 
+### Requirements
+
+Backend :
+- Python 3.12
+- Poetry
+
+Website :
+- Node 22
+- pnpm
+
+Database :
+- Docker (or PostgreSQL 17 bare installed)
+
 ### Configuration
 
 1. Create a `.env` file in the root directory of the project.
@@ -53,3 +66,20 @@ Run the following command to start the client:
 cd app
 pnpm dev
 ```
+
+## Production
+
+> [!NOTE]
+> Currently, only the website (app) is ready for production. The backend is not deployed yet.
+
+1. Copy `.env.example` to `.env` and edit the content of `.env`.
+    ```shell
+    cp .env.example .env
+    nano .env # Edit the content of .env
+    ```
+   
+2. Start container
+   ```shell
+   # From the root directory of the project
+   docker compose up -d
+   ```
