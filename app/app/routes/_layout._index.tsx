@@ -1,12 +1,14 @@
 import type { Route } from "./+types/_layout._index.tsx";
 
 import {Button} from "~/components/ui/button";
-import {BrainCircuit, Rocket, Rss, Send} from "lucide-react";
+import {BrainCircuit, Lightbulb, Rocket, Rss} from "lucide-react";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import React from "react";
 import {Link} from "react-router";
 import {getAllNewsletters} from "~/actions/newsletters-actions";
 import NewsletterCard from "~/components/newsletter-card";
+import SubscribeButton from "~/components/subscribe-button";
+import {featureNotAvailableToast} from "~/lib/utils";
 
 export function meta() {
   return [
@@ -40,6 +42,10 @@ export default function _layout_index({
 }: Route.ComponentProps) {
   const { newsletters } = loaderData;
 
+  const onSuggestSourceClick = () => {
+      featureNotAvailableToast()
+  }
+
   return (
       <div className="flex flex-col">
         <main className="flex-1">
@@ -63,9 +69,7 @@ export default function _layout_index({
                     </Button>
                   </Link>
 
-                  <Button effect="expandIcon" icon={Send} iconPlacement="right">
-                    Subscribe
-                  </Button>
+                  <SubscribeButton />
                 </div>
               </div>
             </div>
@@ -129,6 +133,27 @@ export default function _layout_index({
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </section>
+
+          {/* Suggest Source Section */}
+          <section className="w-full my-12 md:my-36 bg-neutral-100 dark:bg-neutral-800 py-12">
+            <div className="container px-4 md:px-6 mx-auto text-center">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">
+                Help Us Improve
+              </h2>
+              <p className="mx-auto max-w-[600px] text-neutral-700 dark:text-neutral-300 md:text-xl mb-6">
+                Know a great tech source or newsletter we should be tracking? Let us know! Your suggestions help us make our digest even better.
+              </p>
+              <Button
+                  effect="expandIcon"
+                  variant="default"
+                  icon={Lightbulb}
+                  iconPlacement="right"
+                  onClick={onSuggestSourceClick}
+              >
+                Suggest a Source
+              </Button>
             </div>
           </section>
 

@@ -12,6 +12,7 @@ import { themeSessionResolver } from "./sessions.server"
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import {Toaster} from "sonner";
 
 // Return the theme from the session storage using the loader
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -60,6 +61,7 @@ export function App() {
       </head>
       <body>
       <Outlet />
+      <Toaster />
       <ScrollRestoration />
       <Scripts />
       </body>

@@ -4,6 +4,8 @@ import {marked} from "marked";
 // import DOMPurify from 'dompurify';
 // import { JSDOM } from 'jsdom';
 import DOMPurify from 'isomorphic-dompurify';
+import {toast} from "sonner";
+import React from "react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -32,4 +34,16 @@ export function addTargetBlankToLinks(htmlString: string): string {
       return `<a target="_blank" rel="noopener noreferrer"${space}${attributes || ''}>`;
     }
   });
+}
+
+export function featureNotAvailableToast() {
+  toast("Oops", {
+    description: (
+        <p>
+          This feature is not yet available. You can contact our team at{" "}
+          <a href="mailto:contact@stackadoc.com"><u>contact@stackadoc.com</u></a>
+          .
+        </p>
+    ),
+  })
 }
