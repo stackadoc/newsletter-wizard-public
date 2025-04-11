@@ -2,7 +2,7 @@ services:
 
   backend:
     build:
-      context: ./app
+      context: ./backend
     container_name: newsletter-wizard-backend
     volumes:
       # Mount log file for easier access
