@@ -14,11 +14,11 @@ Ensure you have the following installed:
 **Backend:**
 - Python 3.12+
 - Poetry
-- 
+
 **Website (Frontend):**
 - Node.js 22+
 - pnpm
-- 
+
 **Database:**
 - Docker (Recommended)
 - *Alternatively:* PostgreSQL 17 installed directly
