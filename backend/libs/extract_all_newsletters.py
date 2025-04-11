@@ -21,20 +21,22 @@ def extract_all_newsletters():
         )
 
     for source in sources:
-        # Get last Extract date
-        with create_session() as session:
-            last_extract: Extract | None = (
-                session
-                .query(Extract)
-                .filter(Extract.source_id == source.id)
-                .order_by(Extract.content_date.desc())
-                .first()
-            )
-            if not last_extract:
-                logging.info(f"First extract for {source}. Will extract all messages sice 7 days.")
-                date_start = datetime.now() - timedelta(days=7)
-            else:
-                date_start = last_extract.content_date
+        # # Get last Extract date
+        # with create_session() as session:
+        #     last_extract: Extract | None = (
+        #         session
+        #         .query(Extract)
+        #         .filter(Extract.source_id == source.id)
+        #         .order_by(Extract.content_date.desc())
+        #         .first()
+        #     )
+        #     if not last_extract:
+        #         logging.info(f"First extract for {source}. Will extract all messages sice 7 days.")
+        #         date_start = datetime.now() - timedelta(days=7)
+        #     else:
+        #         date_start = last_extract.content_date
+
+        date_start = datetime(2024, 3, 1, 0, 0, 0)
 
         extractor_config = extractors_config.get(source.type)
         if not extractor_config:

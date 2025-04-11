@@ -1,0 +1,27 @@
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        >
+<!-- White background circle -->
+<circle cx="12" cy="12" r="12" fill="white" stroke="none" />
+
+<!-- Group for logo paths with scaling transform for margin -->
+<!-- Scale down to 85% and translate to re-center -->
+<g transform="translate(1.8, 1.8) scale(0.85)">
+    <path d="M15 6.343a4.5 4.5 0 0 1 0 6.314" />
+    <path d="M18.657 3a4.5 4.5 0 0 1 0 6.314" />
+    <path d="M15 17.657a4.5 4.5 0 0 1 0-6.314" />
+    <path d="M18.657 21a4.5 4.5 0 0 1 0-6.314" />
+    <path d="M9 6.343a4.5 4.5 0 0 0 0 6.314" />
+    <path d="M5.343 3a4.5 4.5 0 0 0 0 6.314" />
+    <path d="M9 17.657a4.5 4.5 0 0 0 0-6.314" />
+    <path d="M5.343 21a4.5 4.5 0 0 0 0-6.314" />
+</g>
+</svg>
