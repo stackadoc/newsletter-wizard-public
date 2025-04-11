@@ -1,4 +1,4 @@
-# <div align="center"><div style="display: inline-flex; align-items: center; justify-content: center; background-color: white; border-radius: 50%; width: 50px; height: 50px; padding: 5px;"><img  src="app/public/logo.svg" width="40" alt="Logo"/></div> </br>Newsletter Wizard</div>
+# <div align="center"><img  src="app/public/logo-round-white-bg.svg" width="40"/> </br>Newsletter Wizard</div>
 
 Newsletter Wizard is a tool that aggregates information from various sources like Reddit and
 Discord, processes it, and generates with an LLM a blog-style website with curated articles.
