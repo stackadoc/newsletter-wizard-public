@@ -1,8 +1,9 @@
 services:
 
   backend:
-    build: .
-    container_name: news_backend
+    build:
+      context: ./app
+    container_name: newsletter-wizard-backend
     volumes:
       # Mount log file for easier access
       - ./cron.log:/app/cron.log
