@@ -25,7 +25,7 @@ Database :
     # Create symlinks to the .env file in app and backend directories
     ln -s ../.env app/.env && ln -s ../.env backend/.env
     ```
-2. Start Database
+2. Start Database with Docker
     ```
     docker run -it --rm \
         --name newsletter-wizard-db \
@@ -37,6 +37,9 @@ Database :
         postgres:latest \
         -c log_statement=all
     ```
+   Or you can use a PostgreSQL 17 bare installed on your machine.
+   Make sure to have a database and a user with the same name as in the `.env` file.
+
 3. Install frontend dependencies
     ```shell
     cd app
