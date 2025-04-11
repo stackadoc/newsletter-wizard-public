@@ -21,6 +21,7 @@ interface NewsletterMinimal {
     slug: string;
     title: string;
     imageUrl: string;
+    nbRead: number;
 }
 
 interface GroupedNewsletter {
@@ -51,6 +52,7 @@ function groupNewsletters(data: NewsletterWithConfigSelect[]): GroupedNewsletter
             slug: newsletter.slug,
             title: newsletter.title,
             imageUrl: newsletter.imagesData.medium,
+            nbRead: newsletter.nbRead,
         });
     });
 
@@ -79,7 +81,7 @@ export default function Newsletters({
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="mb-4">
+            <div className="mb-8">
                 <BackButton />
             </div>
 
@@ -107,6 +109,7 @@ export default function Newsletters({
                                     slug={newsletter.slug}
                                     imageUrl={newsletter.imageUrl}
                                     title={newsletter.title}
+                                    nbRead={newsletter.nbRead}
                                 />
                             ))}
                         </div>

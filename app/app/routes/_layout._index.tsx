@@ -29,6 +29,7 @@ export async function loader({ params }: Route.LoaderArgs) {
         title: newsletter.title,
         imageUrl: newsletter.imagesData.small,
         newsletterConfigName: newsletter.newsletterConfig.name,
+        nbRead: newsletter.nbRead,
       }))
       .slice(0, 5);
 
@@ -92,6 +93,7 @@ export default function _layout_index({
                         imageUrl={newsletter.imageUrl}
                         title={newsletter.title}
                         newsletterConfigName={newsletter.newsletterConfigName}
+                        nbRead={newsletter.nbRead}
                     />
                   </div>
               ))}

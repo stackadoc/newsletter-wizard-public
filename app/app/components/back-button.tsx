@@ -16,7 +16,7 @@ export default function BackButton() {
     };
 
     return (
-        <Button variant="outline" size="sm" onClick={goBack} className="mb-4">
+        <Button variant="outline" size="sm" onClick={goBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
         </Button>

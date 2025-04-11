@@ -189,3 +189,5 @@ class Newsletter(IdBaseMixin, TimestampBaseMixin):
     # Foreign key for one-to-many relationship with NewsletterConfig
     newsletter_config_id: int = field(metadata={"sa": Column(Integer, ForeignKey("newsletter_config.id"), nullable=False)})
     newsletter_config: "NewsletterConfig" = field(init=False, metadata={"sa": relationship("NewsletterConfig", back_populates="newsletters")})
+
+    nb_read: int = field(default=0, metadata={"sa": Column(Integer, nullable=False)})

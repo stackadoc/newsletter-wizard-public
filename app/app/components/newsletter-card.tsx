@@ -1,13 +1,15 @@
 import { Link } from "react-router";
 import { Card, CardHeader, CardTitle } from "~/components/ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { Badge } from "~/components/ui/badge"; // Import Badge
+import { Badge } from "~/components/ui/badge";
+import {ReadCountBadge} from "~/components/read-count-badge"; // Import Badge
 
 interface NewsletterCardProps {
     publishedAt: Date;
     slug: string;
     imageUrl: string;
     title: string;
+    nbRead: number;
     newsletterConfigName?: string; // Keep this prop
 }
 
@@ -16,7 +18,8 @@ export default function NewsletterCard({
     slug,
     imageUrl,
     title,
-    newsletterConfigName, // Destructure the new prop
+    newsletterConfigName,
+    nbRead,
 }: NewsletterCardProps) {
 
     const formattedDate = new Date(publishedAt).toISOString().split("T")[0]
@@ -25,7 +28,7 @@ export default function NewsletterCard({
         // Wrap Card with Link for navigation
         <Link
             to={`/newsletter/${slug}`} // Adjust path as needed
-            className="group block" // Use group for hover effects if desired
+            className="group block h-full" // Use group for hover effects if desired
         >
             <Card className="overflow-hidden h-full transition-shadow duration-200 hover:shadow-lg border bg-card text-card-foreground flex flex-col">
                 {imageUrl && (
@@ -48,6 +51,7 @@ export default function NewsletterCard({
                         <p className="text-xs text-muted-foreground">
                             Published on {formattedDate}
                         </p>
+                        <ReadCountBadge count={nbRead} />
                     </div>
                 </CardHeader>
             </Card>

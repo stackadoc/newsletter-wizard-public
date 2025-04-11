@@ -87,6 +87,7 @@ export const newsletterTable = pgTable('newsletter', {
     newsletterConfigId: integer('newsletter_config_id')
         .notNull()
         .references(() => newsletterConfigTable.id),
+    nbRead: integer('nb_read').default(0).notNull(),
 }, (table) => {
     return {
         newsletterConfigIdIdx: index("newsletter_config_id_idx").on(table.newsletterConfigId), // Optional: Index for FK

@@ -1,6 +1,6 @@
 import type {NewsletterSelect, NewsletterWithConfigSelect} from "~/lib/types/newsletter-types";
 import {db} from "~/db";
-import {and, desc, eq, lt} from "drizzle-orm";
+import {and, desc, eq, lt, sql} from "drizzle-orm";
 import {newsletterTable} from "~/db/schema";
 
 export const getNewsletterBySlug = async (slug: string): Promise<NewsletterSelect | undefined> => {
@@ -25,4 +25,10 @@ export const getAllNewsletters = async (): Promise<NewsletterWithConfigSelect[]>
             newsletterConfig: true,
         },
     });
+}
+
+export const incrementReadCount = async (slug: string): Promise<void> => {
+    await db.update(newsletterTable).set({
+        nbRead: sql`${newsletterTable.nbRead} + 1`,
+    }).where(eq(newsletterTable.slug, slug)).execute();
 }

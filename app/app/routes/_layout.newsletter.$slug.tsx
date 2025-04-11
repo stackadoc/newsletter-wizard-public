@@ -1,5 +1,9 @@
 import type { Route } from "./+types/_layout.newsletter.$slug.tsx";
-import {getFirstNewsletterBeforeDate, getNewsletterBySlug} from "~/actions/newsletters-actions";
+import {
+    getFirstNewsletterBeforeDate,
+    getNewsletterBySlug,
+    incrementReadCount
+} from "~/actions/newsletters-actions";
 import {addTargetBlankToLinks, markdownToHtml} from "~/lib/utils";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import {AspectRatio} from "~/components/ui/aspect-ratio";
@@ -9,6 +13,7 @@ import type {LinksFunction} from "react-router";
 import BackButton from "~/components/back-button";
 import SubscribeButton from "~/components/subscribe-button";
 import NewsletterCard from "~/components/newsletter-card";
+import {ReadCountBadge} from "~/components/read-count-badge";
 
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: styles },
@@ -37,16 +42,21 @@ type ServerData = {
         title: string;
         imageUrl: string;
         modelName: string;
+        nbRead: number;
     };
     previousNewsletter?: {
         publishedAt: Date;
         slug: string;
         imageUrl: string;
         title: string;
+        nbRead: number;
     }
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
+    // Increment read count
+    incrementReadCount(params.slug);
+
     const newsletterFull = await getNewsletterBySlug(params.slug);
     if (!newsletterFull) {
         throw new Response("Not Found", { status: 404 });
@@ -65,12 +75,14 @@ export async function loader({ params }: Route.LoaderArgs) {
             title: newsletterFull.title,
             imageUrl: newsletterFull.imagesData.medium,
             modelName: newsletterFull.modelName,
+            nbRead: newsletterFull.nbRead,
         },
         previousNewsletter: previousNewsletter ? {
             publishedAt: previousNewsletter.publishedAt,
             slug: previousNewsletter.slug,
             imageUrl: previousNewsletter.imagesData.medium,
             title: previousNewsletter.title,
+            nbRead: previousNewsletter.nbRead,
         } : undefined,
     };
 
@@ -103,9 +115,14 @@ export default function Newsletter({
                         />
                     </AspectRatio>
                 )}
-                <span className="block text-xs italic text-muted-foreground px-6 pt-3 pb-1 text-center md:text-left">
-                    AI-generated content and visuals, informed by online data.
-                </span>
+                <div
+                    className="flex flex-col md:flex-row items-center justify-between px-6 pt-3 pb-1 gap-6"
+                >
+                    <span className="block text-xs italic text-muted-foreground text-center md:text-left">
+                        AI-generated content and visuals, informed by online data.
+                    </span>
+                    <ReadCountBadge count={newsletter.nbRead} />
+                </div>
                 <CardHeader className="p-6">
                     <CardTitle className="text-3xl lg:text-4xl font-bold mb-2">{newsletter.title}</CardTitle>
                     <p className="text-sm text-muted-foreground">
@@ -130,6 +147,7 @@ export default function Newsletter({
                                     slug={loaderData.previousNewsletter.slug}
                                     imageUrl={loaderData.previousNewsletter.imageUrl}
                                     title={loaderData.previousNewsletter.title}
+                                    nbRead={loaderData.previousNewsletter.nbRead}
                                 />
                             </div>
                         </div>
