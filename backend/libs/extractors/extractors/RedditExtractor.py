@@ -72,7 +72,7 @@ class RedditExtractor(ExtractorABC):
             if submission.stickied:
                 continue
 
-            if submission.author.name == "AutoModerator":
+            if submission.author and submission.author.name == "AutoModerator":
                 continue
 
             if submission.selftext == "[removed]" or submission.selftext == "[deleted]":

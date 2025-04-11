@@ -2,6 +2,7 @@ import json
 from typing import List
 
 from sqlalchemy.dialects.postgresql import insert
+from tqdm import tqdm
 
 from libs.config import create_session
 from libs.db_models import Extract, Source
@@ -27,13 +28,18 @@ def insert_extracts(
     if not items_to_insert:
         return
 
-    stmt = insert(Extract).values(items_to_insert)
-    # Specify the constraint name or the columns involved in the unique constraint
-    # Using the constraint name is generally more robust if columns change later
-    stmt = stmt.on_conflict_do_nothing(
-        index_elements=['source_id', 'content_id']
-    )
-
+    batch_size = 100
     with create_session() as session:
-        session.execute(stmt)
+        # Use tqdm to iterate over batches
+        for i in tqdm(range(0, len(items_to_insert), batch_size), desc="Inserting extracts"):
+            batch = items_to_insert[i:i + batch_size]
+            if not batch:
+                continue
+
+            stmt = insert(Extract).values(batch)
+            # Specify the constraint name or the columns involved in the unique constraint
+            stmt = stmt.on_conflict_do_nothing(
+                index_elements=['source_id', 'content_id']
+            )
+            session.execute(stmt)
         session.commit()
