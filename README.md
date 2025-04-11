@@ -55,6 +55,11 @@ Database :
     cd app
     npx drizzle-kit migrate
     ```
+6. Install DiscordChatExporter:
+   1. Go to [DiscordChatExporter release](https://github.com/Tyrrrz/DiscordChatExporter/releases/latest)
+   2. Download the version for your OS (e.g., `DiscordChatExporter.Cli.linux-x64.zip` for Linux)
+   3. Extract the zip file
+   4. Rename the extracted folder to `discord_chat_exporter` and move it to the `backend` directory
 
 ### Generate Newsletter
 
@@ -69,6 +74,17 @@ Run the following command to start the client:
 cd app
 pnpm dev
 ```
+
+### Documentations
+
+- OpenAI API (used for all LLM calls, not only OpenAI LLMs): [OpenAI API](https://platform.openai.com/docs/api-reference/introduction)
+- Frontend: [React Router v7](https://reactrouter.com/home)
+- Database: [Drizzle ORM](https://orm.drizzle.team/docs/overview)
+- Reddit extractor: [PRAW](https://praw.readthedocs.io/en/stable/)
+- Discord extractor [DiscordChatExporter](https://github.com/Tyrrrz/DiscordChatExporter/tree/master/.docs)
+- Frontend use file-convention based route config from React Router: [File Route Conventions](https://reactrouter.com/how-to/file-route-conventions)
+- Frontend components: [Shadcn](https://ui.shadcn.com/)
+- CSS: [Tailwind CSS](https://tailwindcss.com/docs/styling-with-utility-classes)
 
 ## Production
 
