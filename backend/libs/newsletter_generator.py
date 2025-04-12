@@ -35,12 +35,13 @@ def get_dates_boundaries(newsletter_config: NewsletterConfig, nb_days: int =3) -
         last_newsletter = (
             session.query(Newsletter)
             .filter(Newsletter.newsletter_config_id == newsletter_config.id)
-            .order_by(Newsletter.created_at.desc())
+            .order_by(Newsletter.published_at.desc())
             .first()
         )
         last_newsletter_date = (
-            last_newsletter.created_at.date() if last_newsletter else None
+            last_newsletter.published_at.date() if last_newsletter else None
         )
+        logging.debug(f"Last newsletter date since last newsletter: {last_newsletter_date}")
 
         # Get the first extract date since the last newsletter
         first_extract = (
@@ -57,6 +58,7 @@ def get_dates_boundaries(newsletter_config: NewsletterConfig, nb_days: int =3) -
             .first()
         )
         first_extract_date = first_extract.content_date
+        logging.debug(f"First extract date: {first_extract_date}")
 
         # Get the last extract date for this config
         last_extract = (
@@ -68,6 +70,7 @@ def get_dates_boundaries(newsletter_config: NewsletterConfig, nb_days: int =3) -
             .first()
         )
         last_extract_date = last_extract.content_date
+        logging.debug(f"Last extract date: {last_extract_date}")
 
         # Make groups of nb_days
         dates_boundaries = []
@@ -88,12 +91,16 @@ def get_dates_boundaries(newsletter_config: NewsletterConfig, nb_days: int =3) -
         # Sort by start date
         dates_boundaries.sort(key=lambda x: x[0])
 
+        logging.debug(f"Dates boundaries (before removing less than {nb_days} days) : {dates_boundaries}")
+
         # Remove dates range if it's less than 3 days
         dates_boundaries = [
             (start_date, end_date)
             for start_date, end_date in dates_boundaries
             if (end_date - start_date).days >= nb_days
         ]
+
+        logging.debug(f"Dates boundaries (after removing less than {nb_days} days) : {dates_boundaries}")
 
 
     return dates_boundaries
@@ -117,6 +124,8 @@ def generate_newsletter():
             else:
                 logging.info(f"No newsletter to generate for {newsletter_config}.")
                 continue
+
+            return
             # continue
             for start_date, end_date in dates_boundaries:
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter between {start_date} and {end_date}...")
@@ -181,8 +190,6 @@ def generate_newsletter():
                 )
 
                 response_markdown = response.choices[0].message.content
-
-                today_str = datetime.date.today().strftime("%Y-%m-%d")
 
                 # Generate a title for the newsletter
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter title...")
