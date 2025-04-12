@@ -125,8 +125,6 @@ def generate_newsletter():
                 logging.info(f"No newsletter to generate for {newsletter_config}.")
                 continue
 
-            return
-            # continue
             for start_date, end_date in dates_boundaries:
                 logging.info(f"[{idx+1}/{len(newsletter_configs)}] {newsletter_config} | Generating newsletter between {start_date} and {end_date}...")
 
