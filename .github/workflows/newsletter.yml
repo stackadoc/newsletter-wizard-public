@@ -72,6 +72,7 @@ jobs:
           --security-opt=no-new-privileges \
           --read-only \
           --tmpfs /tmp:rw,noexec,nosuid \
+          --tmpfs /app/logs:rw,noexec,nosuid \
           --env-file <(env | grep -v '^PATH=') \
           newsletter-wizard-backend:latest || EXIT_CODE=$?
         
