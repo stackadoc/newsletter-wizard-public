@@ -159,5 +159,5 @@ The newsletter generation is automated using GitHub Actions. The workflow runs d
 2. Go to your repository's Settings > Secrets and variables > Actions
 3. Copy the workflow: `mkdir -p .github/workflows/ && cp newsletter_workflow.example.yml .github/workflows/newsletter.yml`
 4. Add all the required secrets from the `.env.example` file in the root of the project
-5. The workflow will automatically run daily at 13:00 UTC (if schedule is uncommented)
+5. The workflow will automatically run daily at 13:00 UTC
 6. You can also trigger it manually from the Actions tab
