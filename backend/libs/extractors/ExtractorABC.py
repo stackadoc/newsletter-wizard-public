@@ -10,12 +10,6 @@ from libs.types.ExtractorOutputType import ExtractorOutputType
 
 class ExtractorABC(abc.ABC):
 
-    @staticmethod
-    def get_extract_dir(newsletter_config: dict) -> Path:
-        extract_dir = Path(config.OUTPUT_DIR) / f"extracts/{newsletter_config['name']}/"
-        extract_dir.mkdir(parents=True, exist_ok=True)
-        return extract_dir
-
     @abc.abstractmethod
     def extract(self, date_start: datetime, newsletter_config: Source) -> List[ExtractorOutputType]:
         raise NotImplemented("Method not implemented")
