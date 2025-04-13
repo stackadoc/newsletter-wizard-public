@@ -21,3 +21,6 @@ backend/discord_chat_exporter/
 backend/logs/
 
 *.pyc
+
+.github/workflows/**
+PRIVATE_README.md
