@@ -14,10 +14,19 @@ This project uses a private repository for development and a public repository f
 
 3. **Pushing Changes from Private to Public**
    ```bash
-   # Add the public repository as a remote
-   git remote add public https://github.com/your-username/newsletter-wizard-public.git
+   # Add the public repository as a remote (do it only once)
+   git remote add public git@github.com:stackadoc/newsletter-wizard-public.git
    
-   # Push changes to the public repository
+   # Switch to public branch
+   git checkout public-version
+
+   # Update the public branch
+   git merge origin/main
+
+   # Push the updates
+   git push
+
+   # Push to public repository
    git push public public-version:main
    ```
 
