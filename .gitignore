@@ -24,3 +24,5 @@ backend/logs/
 
 .github/workflows/**
 PRIVATE_README.md
+
+db/
