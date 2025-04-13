@@ -151,18 +151,12 @@ Ensure you have the following installed:
 
 ### Backend Automation (GitHub Actions)
 
-The backend newsletter generation is automated using GitHub Actions. The workflow:
-- Runs daily at 13:00 UTC (9 AM EDT / 10 AM EST)
-- Can be triggered manually through the GitHub Actions interface
-- Builds and runs the backend container
-- Captures and stores logs for 7 days
-- Creates GitHub issues on failure
+The newsletter generation is automated using GitHub Actions. The workflow runs daily at 13:00 UTC and can also be triggered manually.
 
-To set up the backend automation:
-1. Ensure all required secrets are set in your GitHub repository:
-   - Database credentials (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`)
-   - API keys (`OPENAI_API_KEY`, `DISCORD_TOKEN`, etc.)
-   - AWS credentials (if using S3)
-   - Reddit credentials
+### Setting Up the Workflow
 
-2. The workflow will automatically run based on the schedule, or you can trigger it manually from the GitHub Actions interface.
+1. Fork this repository
+2. Go to your repository's Settings > Secrets and variables > Actions
+3. Add all the required secrets from the `.env.example` file in the root of the project
+4. The workflow will automatically run daily at 13:00 UTC (if schedule is uncommented)
+5. You can also trigger it manually from the Actions tab
