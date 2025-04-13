@@ -28,6 +28,9 @@ This project uses a private repository for development and a public repository f
 
    # Push to public repository
    git push public public-version:main
+
+   # Switch back to your working branch
+   git checkout <branch>
    ```
 
 4. **Important Notes**
