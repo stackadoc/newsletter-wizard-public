@@ -62,7 +62,7 @@ jobs:
         docker buildx build \
           --cache-from type=local,src=/tmp/.buildx-cache \
           --cache-to type=local,dest=/tmp/.buildx-cache \
-          -t newsletter-wizard-backend ./backend
+          -t newsletter-wizard-backend:latest ./backend
         
         # Run the container with resource limits
         timeout 45m docker run --rm \
@@ -72,7 +72,7 @@ jobs:
           --read-only \
           --tmpfs /tmp:rw,noexec,nosuid \
           --env-file <(env | grep -v '^PATH=') \
-          newsletter-wizard-backend || EXIT_CODE=$?
+          newsletter-wizard-backend:latest || EXIT_CODE=$?
         
         # Exit with the container's exit code
         exit ${EXIT_CODE:-0} 
