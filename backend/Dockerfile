@@ -4,21 +4,12 @@ FROM python:3.12-slim
 # Set the working directory in the container
 WORKDIR /app
 
-# Install required system dependencies (curl, unzip, libicu, and cron)
+# Install required system dependencies (curl, unzip, libicu)
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     libicu-dev \
-    cron \
     && rm -rf /var/lib/apt/lists/*
-
-# Copy the crontab file to the cron directory
-COPY app-cron /etc/cron.d/app-cron
-
-# Give execution rights on the cron job and create log file
-RUN chmod 0644 /etc/cron.d/app-cron \
-    && crontab /etc/cron.d/app-cron \
-    && touch /app/cron.log
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -52,5 +43,5 @@ RUN ARCH=$(uname -m) && \
 # Set PYTHONPATH
 ENV PYTHONPATH="/app"
 
-# Run cron in the foreground
-CMD ["cron", "-f"]
+# Set the default command to run the newsletter refresh
+CMD ["poetry", "run", "python", "-m", "app.refresh_news"]

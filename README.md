@@ -128,7 +128,9 @@ Ensure you have the following installed:
 - **Reddit Data Extraction:** [PRAW (Python Reddit API Wrapper)](https://praw.readthedocs.io/en/stable/)
 - **Discord Data Extraction:** [DiscordChatExporter Documentation](https://github.com/Tyrrrz/DiscordChatExporter/tree/master/.docs)
 
-## 🚢 Production Deployment (Docker Compose)
+## 🚢 Production Deployment
+
+### Frontend Deployment (Docker Compose)
 
 1. **Configure Production Environment:**
    Copy the example environment file specifically for production:
@@ -140,15 +142,27 @@ Ensure you have the following installed:
    nano .env # Use your preferred editor
    ```
 
-2. **Create Log File:**
-   The Docker setup might require a log file for cron jobs. Create it in the project root:
-   ```shell
-   touch cron.log
-   ```
-
-3.  **Start Services:**
-   From the root directory of the project, use Docker Compose to build and start the application containers in detached mode:
+2. **Start Services:**
+   From the root directory of the project, use Docker Compose to build and start the frontend container in detached mode:
    ```shell
    docker compose up -d
    ```
-   This command will start the backend, frontend (served likely via a static web server within the container), and the database service as defined in your `docker-compose.yml` file.
+   This will start the frontend service and Caddy web server as defined in your `docker-compose.yml` file.
+
+### Backend Automation (GitHub Actions)
+
+The backend newsletter generation is automated using GitHub Actions. The workflow:
+- Runs daily at 13:00 UTC (9 AM EDT / 10 AM EST)
+- Can be triggered manually through the GitHub Actions interface
+- Builds and runs the backend container
+- Captures and stores logs for 7 days
+- Creates GitHub issues on failure
+
+To set up the backend automation:
+1. Ensure all required secrets are set in your GitHub repository:
+   - Database credentials (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`)
+   - API keys (`OPENAI_API_KEY`, `DISCORD_TOKEN`, etc.)
+   - AWS credentials (if using S3)
+   - Reddit credentials
+
+2. The workflow will automatically run based on the schedule, or you can trigger it manually from the GitHub Actions interface.

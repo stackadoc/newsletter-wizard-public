@@ -1,15 +1,5 @@
 services:
 
-  backend:
-    build:
-      context: ./backend
-    container_name: newsletter-wizard-backend
-    volumes:
-      # Mount log file for easier access
-      - ./cron.log:/app/cron.log
-      - ./backend_logs:/app/logs
-    env_file: ".env"
-
   app:
     container_name: newsletter-wizard-app
     build:
