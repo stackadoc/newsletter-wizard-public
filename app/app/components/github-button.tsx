@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "~/components/ui/button";
 
 export default function GithubRepoButton() {
-    const repoUrl = "https://github.com/stackadoc/newsletter-wizard";
+    const repoUrl = "https://github.com/stackadoc/newsletter-wizard-public";
 
     return (
         <Button asChild variant="outline">
