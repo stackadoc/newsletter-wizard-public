@@ -32,7 +32,7 @@ Ensure you have the following installed:
       ```
    - Edit the `.env` file with your specific configuration (API keys, database credentials, etc.). Use your preferred editor:
       ```shell
-      nano .env # Or vim, code, etc.
+      nano .env
       ```
    - Create symbolic links for the backend and frontend apps to access the central `.env` file:
       ```shell
@@ -139,7 +139,7 @@ Ensure you have the following installed:
    ```
    Edit the `.env` file with your production database credentials, API keys, and other settings:
    ```shell
-   nano .env # Use your preferred editor
+   nano .env
    ```
 
 2. **Start Services:**
